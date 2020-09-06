@@ -27,7 +27,7 @@ parser code {:
 
 :};
 
-terminal PLUS, MINUS, LPAREN, RPAREN;
+terminal PLUS, MINUS, LPAREN, RPAREN, RET, SEMI;
 terminal Long    INTCONST;
 
 non terminal Program         program;
@@ -38,7 +38,7 @@ precedence left PLUS, MINUS;
 
 start with program;
 
-program ::= expr:e
+program ::= RET expr:e SEMI
             {: RESULT = new Program(e, loc(eleft, eright)); :}
          ;
 
