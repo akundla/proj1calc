@@ -67,7 +67,7 @@ white_space = {new_line} | [ \t\f]
 ")"               { return symbol(")",  RPAREN); }
 "return"          { return symbol("return",  RET); }
 ";"               { return symbol(";",  SEMI); }
-//"*"               { return symbol("*",  MULT); }
+"*"               { return symbol("*",  MULT); }
 
 /* comments */
 "/*" [^*] ~"*/" | "/*" "*"+ "/"
