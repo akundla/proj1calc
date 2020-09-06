@@ -57,6 +57,7 @@ expr ::= INTCONST:c
          %prec UMINUS
       ;
 // %prec is there to give the whole production the precedence of UMINUS instead of merely expr
+// Doing 0 minus EXPR is simpler than modifying the ast nodes 
 
 binaryExpr ::= expr:e1 PLUS expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.PLUS, e2, loc(e1left, e1right)); :}
