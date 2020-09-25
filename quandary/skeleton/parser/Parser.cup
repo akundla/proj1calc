@@ -53,7 +53,7 @@ expr ::= INTCONST:c
       |  LPAREN expr:e RPAREN
          {: RESULT = e; :}
       |  MINUS expr:e
-         {: RESULT = new BinaryExpr(new ConstExpr(0, loc(eleft, eright)), BinaryExpr.MINUS, e, loc(eleft, eright)); :}
+         {: RESULT = new UnaryExpr(UnaryExpr.UNARY_NEGATION, e, loc(eleft, eright)); :}
          %prec UMINUS
       ;
 // %prec is there to give the whole production the precedence of UMINUS instead of merely expr
