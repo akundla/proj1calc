@@ -42,7 +42,12 @@ terminal Long    INTCONST;
 non terminal Program         program;
 non terminal Expr            expr;
 non terminal BinaryExpr      binaryExpr;
+non terminal Cond            cond;
 
+
+precedence left BOOL_AND, BOOL_OR;
+precedence left BOOL_NOT;
+precedence left LESS_THAN_OR_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, EQUALITY_CHECK, NON_EQUALITY_CHECK, LESS_THAN, GREATER_THAN;
 precedence left PLUS, MINUS;
 // MULT goes one line below because it is higher precedence than either PLUS or MINUS
 precedence left MULT;
@@ -51,9 +56,31 @@ precedence left UMINUS;
 
 start with program;
 
-program ::= RET expr:e SEMI
+program ::= RET cond:e SEMI
             {: RESULT = new Program(e, loc(eleft, eright)); :}
          ;
+
+cond ::= LPAREN cond:c RPAREN
+         {: RESULT = c; :}
+      |  BOOL_NOT cond:c
+         {: RESULT = new UnaryCond(UnaryCond.BOOL_NOT, c, loc(cleft, cright)); :}
+      |  cond:c1 BOOL_AND cond:c2
+         {: RESULT = new BinaryCond(c1, BinaryCond.BOOL_AND, c2, loc(c1left, c1right)); :}
+      |  cond:c1 BOOL_OR cond:c2
+         {: RESULT = new BinaryCond(c1, BinaryCond.BOOL_OR, c2, loc(c1left, c1right)); :}
+      |  expr:c1 LESS_THAN expr:c2
+         {: RESULT = new BinaryExprCond(c1, BinaryExprCond.LESS_THAN, c2, loc(c1left, c1right)); :}
+      |  expr:c1 LESS_THAN_OR_EQUAL_TO expr:c2
+         {: RESULT = new BinaryExprCond(c1, BinaryExprCond.LESS_THAN_OR_EQUAL_TO, c2, loc(c1left, c1right)); :}
+      |  expr:c1 GREATER_THAN expr:c2
+         {: RESULT = new BinaryExprCond(c1, BinaryExprCond.GREATER_THAN, c2, loc(c1left, c1right)); :}
+      |  expr:c1 GREATER_THAN_OR_EQUAL_TO expr:c2
+         {: RESULT = new BinaryExprCond(c1, BinaryExprCond.GREATER_THAN_OR_EQUAL_TO, c2, loc(c1left, c1right)); :}
+      |  expr:c1 EQUALITY_CHECK expr:c2
+         {: RESULT = new BinaryExprCond(c1, BinaryExprCond.EQUALITY_CHECK, c2, loc(c1left, c1right)); :}
+      |  expr:c1 NON_EQUALITY_CHECK expr:c2
+         {: RESULT = new BinaryExprCond(c1, BinaryExprCond.NON_EQUALITY_CHECK, c2, loc(c1left, c1right)); :}
+      ;
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
