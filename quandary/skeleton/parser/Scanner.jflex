@@ -68,6 +68,9 @@ white_space = {new_line} | [ \t\f]
 "return"          { return symbol("return",  RET); }
 ";"               { return symbol(";",  SEMI); }
 "*"               { return symbol("*",  MULT); }
+"int"             { return symbol("int",  INT); }
+"if"              { return symbol("if",  IF); }
+"else"            { return symbol("else",  ELSE); }
 
 /* comments */
 "/*" [^*] ~"*/" | "/*" "*"+ "/"
