@@ -27,7 +27,16 @@ parser code {:
 
 :};
 
-terminal PLUS, MINUS, LPAREN, RPAREN, RET, SEMI, MULT, UMINUS;
+terminal PLUS, MINUS, MULT, UMINUS;
+terminal LPAREN, RPAREN;
+terminal RET, SEMI;
+terminal INT;
+terminal IF, ELSE;
+terminal LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, EQUALITY_CHECK, NON_EQUALITY_CHECK;
+terminal BOOL_AND, BOOL_OR;
+terminal ASSIGNMENT;
+terminal BOOL_NOT;
+
 terminal Long    INTCONST;
 
 non terminal Program         program;

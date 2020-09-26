@@ -63,24 +63,32 @@ white_space = {new_line} | [ \t\f]
 /* separators */
 "+"               { return symbol("+",  PLUS); }
 "-"               { return symbol("-",  MINUS); }
+"*"               { return symbol("*",  MULT); }
+
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
+
 "return"          { return symbol("return",  RET); }
 ";"               { return symbol(";",  SEMI); }
-"*"               { return symbol("*",  MULT); }
+
 "int"             { return symbol("int",  INT); }
+
 "if"              { return symbol("if",  IF); }
 "else"            { return symbol("else",  ELSE); }
+
 "<"               { return symbol("<",  LESS_THAN); }
 "<="              { return symbol("<=",  LESS_THAN_OR_EQUAL_TO); }
 ">"               { return symbol(">",  GREATER_THAN); }
 ">="              { return symbol(">=",  GREATER_THAN_OR_EQUAL_TO); }
-"="               { return symbol("=",  ASSIGNMENT); }
 "=="              { return symbol("==",  EQUALITY_CHECK); }
+"!="              { return symbol("!=",  NON_EQUALITY_CHECK); }
+
 "&&"              { return symbol("&&",  BOOL_AND); }
 "||"              { return symbol("||",  BOOL_OR); }
-"!="              { return symbol("!=",  NON_EQUALITY_CHECK); }
-"!"               { return symbol("!",  BOOL_NOT; }
+
+"="               { return symbol("=",  ASSIGNMENT); }
+
+"!"               { return symbol("!",  BOOL_NOT); }
 
 /* comments */
 "/*" [^*] ~"*/" | "/*" "*"+ "/"
