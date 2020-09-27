@@ -61,15 +61,17 @@ precedence left UMINUS;
 
 start with program;
 
-program ::= statement:s
-            {: RESULT = new Program(s, loc(sleft, sright)); :}
+program ::= statementList:sl
+            {: RESULT = new Program(sl, loc(slleft, slright)); :}
          ;
 
-/*
+
 statementList ::= statement:s statementList:sl
-               | /* empty
+                  {: sl.add(s); RESULT = sl; :}
+               | /* empty */
+                  {: RESULT = new ArrayList<Statement>(); :}
                ;
-*/
+
 statement ::= IF cond:c statement:s1 ELSE statement:elseS
                {: RESULT = new IfElseStatement(c, s1, elseS, loc(cleft, cright)); :}
                %prec ELSE

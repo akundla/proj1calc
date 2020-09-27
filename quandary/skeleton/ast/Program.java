@@ -1,21 +1,30 @@
 package ast;
 
 import java.io.PrintStream;
+import java.util.List;
 
 public class Program extends ASTNode {
 
-    final Statement statement;
+    final List<Statement> statements;
 
-    public Program(Statement statement, Location loc) {
+    public Program(List<Statement> statements, Location loc) {
         super(loc);
-        this.statement = statement;
+        this.statements = statements;
     }
 
     public void println(PrintStream ps) {
-        ps.println(this.statement);
+        for (Statement statement : this.statements) {
+            ps.println(statement);
+        }
     }
 
     public Object exec(long argument) {
-        return this.statement.exec();
+        for (int i = 0; i < this.statements.size(); i++) {
+            Object tempVal = this.statements.get(i).exec();
+            if (tempVal != null) {
+                return tempVal;
+            }
+        }
+        return null;
     }
 }
