@@ -11,7 +11,7 @@ public class ReturnStatement extends Statement {
 
     @Override
     public String toString() {
-        return this.expr.toString();
+        return "return " + this.expr.toString() + ";\n\r";
     }
 
     @Override
