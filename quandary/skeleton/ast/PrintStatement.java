@@ -11,7 +11,7 @@ public class PrintStatement extends Statement {
 
     @Override
     public String toString() {
-        return "print(" + this.expr.toString() + ")";
+        return "print(" + this.expr.toString() + ");";
     }
 
     @Override

@@ -36,6 +36,7 @@ terminal LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_T
 terminal BOOL_AND, BOOL_OR;
 terminal ASSIGNMENT;
 terminal BOOL_NOT;
+terminal PRINT;
 
 terminal Long    INTCONST;
 
@@ -46,6 +47,7 @@ non terminal Cond            cond;
 non terminal Statement       statement;
 non terminal List<Statement> statementList;
 
+precedence left PRINT;
 // Simple way to give if-else statements higher precedence than just if statements
 precedence left IF;
 precedence left ELSE;
@@ -65,9 +67,9 @@ program ::= statementList:sl
             {: RESULT = new Program(sl, loc(slleft, slright)); :}
          ;
 
-
 statementList ::= statement:s statementList:sl
-                  {: sl.add(s); RESULT = sl; :}
+                  /* For unknown reasons even with the above grammar the statements get parsed last-to-first, hence they are added to the list at index 0. */
+                  {: sl.add(0, s); RESULT = sl; :}
                | /* empty */
                   {: RESULT = new ArrayList<Statement>(); :}
                ;
@@ -80,6 +82,8 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
                %prec IF
             | RET expr:e SEMI
                {: RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
+            | PRINT LPAREN expr:e RPAREN SEMI
+               {: RESULT = new PrintStatement(e, loc(eleft, eright)); :}
             ;
 
 cond ::= LPAREN cond:c RPAREN

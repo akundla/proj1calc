@@ -90,6 +90,8 @@ white_space = {new_line} | [ \t\f]
 
 "!"               { return symbol("!",  BOOL_NOT); }
 
+"print"           { return symbol("print", PRINT); }
+
 /* comments */
 "/*" [^*] ~"*/" | "/*" "*"+ "/"
                   { /* ignore comments */ }
