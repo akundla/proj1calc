@@ -14,10 +14,11 @@ public class StatementList extends Statement {
 
     @Override
     public String toString() {
-        String s = null;
+        String s = "{\n\r";
         for (Statement statement : this.statements) {
             s += statement + "\n\r";
         }
+        s += "}\n\r";
         return s;
     }
 
