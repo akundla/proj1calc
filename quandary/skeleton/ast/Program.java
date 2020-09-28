@@ -1,6 +1,7 @@
 package ast;
 
 import java.io.PrintStream;
+import java.util.HashMap;
 
 public class Program extends ASTNode {
 
@@ -16,6 +17,6 @@ public class Program extends ASTNode {
     }
 
     public Object exec(long argument) {
-        return this.statements.exec();
+        return this.statements.exec(new HashMap<String, Long>());
     }
 }
