@@ -78,8 +78,8 @@ funcDefList ::= funcDef:fd funcDefList:fdl
             ;
 
 
-funcDef ::= LPAREN RPAREN LBRACE statementList:sl RBRACE
-            {: RESULT = new FunctionDefinition(sl, loc(slleft, slright)); :}
+funcDef ::= IDENT:i LPAREN RPAREN LBRACE statementList:sl RBRACE
+            {: RESULT = new FunctionDefinition(i, sl, loc(slleft, slright)); :}
          ;
 
 statementList ::= statement:s statementList:sl
