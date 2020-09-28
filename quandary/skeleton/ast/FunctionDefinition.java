@@ -18,7 +18,7 @@ public class FunctionDefinition extends ASTNode {
         return "(" + "" + ")" + "{\n\r" + this.statements + "\n\r}";
     }
 
-    public Object exec(long argument) {
+    public Object exec() {
         return this.statements.exec(this.varEnv);
     }
 }

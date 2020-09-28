@@ -1,21 +1,22 @@
 package ast;
 
 import java.io.PrintStream;
+import java.util.List;
 
 public class Program extends ASTNode {
 
-    final FunctionDefinition functionDef;
+    final FunctionDefinitionList functionDefs;
 
-    public Program(FunctionDefinition funcDef, Location loc) {
+    public Program(List<FunctionDefinition> funcDefs, Location loc) {
         super(loc);
-        this.functionDef = funcDef;
+        this.functionDefs = new FunctionDefinitionList(funcDefs, loc);
     }
 
     public void println(PrintStream ps) {
-        ps.println(this.functionDef);
+        ps.println(this.functionDefs);
     }
 
     public Object exec(long argument) {
-        return this.functionDef.exec(argument);
+        return this.functionDefs.exec();
     }
 }
