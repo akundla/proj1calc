@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class IfElseStatement extends Statement {
     
     final Cond condition;
@@ -21,12 +23,12 @@ public class IfElseStatement extends Statement {
     }
 
     @Override
-    Object exec() {
+    Object exec(HashMap<String, Long> variables) {
         if (this.condition.eval()) {
-            return this.statement1.exec();
+            return this.statement1.exec(variables);
         }
         else {
-            return this.elseStatement.exec();
+            return this.elseStatement.exec(variables);
         }
     }
 }

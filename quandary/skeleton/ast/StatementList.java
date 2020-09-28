@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class StatementList extends Statement {
@@ -20,9 +21,9 @@ public class StatementList extends Statement {
         return s;
     }
 
-    public Object exec() {
+    public Object exec(HashMap<String, Long> variables) {
         for (int i = 0; i < this.statements.size(); i++) {
-            Object tempVal = this.statements.get(i).exec();
+            Object tempVal = this.statements.get(i).exec(variables);
             if (tempVal != null) {
                 return tempVal;
             }

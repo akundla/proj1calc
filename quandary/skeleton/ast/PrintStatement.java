@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class PrintStatement extends Statement {
 
     final Expr expr;
@@ -15,7 +17,7 @@ public class PrintStatement extends Statement {
     }
 
     @Override
-    Object exec() {
+    Object exec(HashMap<String, Long> variables) {
         System.out.println(expr.eval());
         return null;
     }
