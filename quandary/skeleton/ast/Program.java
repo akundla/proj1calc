@@ -1,23 +1,21 @@
 package ast;
 
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.List;
 
 public class Program extends ASTNode {
 
-    final StatementList statements;
+    final FunctionDefinition functionDef;
 
-    public Program(List<Statement> statements, Location loc) {
+    public Program(FunctionDefinition funcDef, Location loc) {
         super(loc);
-        this.statements = new StatementList(statements, loc);
+        this.functionDef = funcDef;
     }
 
     public void println(PrintStream ps) {
-        ps.println(this.statements);
+        ps.println(this.functionDef);
     }
 
     public Object exec(long argument) {
-        return this.statements.exec(new HashMap<String, Long>());
+        return this.functionDef.exec(argument);
     }
 }

@@ -68,6 +68,9 @@ white_space = {new_line} | [ \t\f]
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
 
+"{"               { return symbol("{", LBRACE); }
+"}"               { return symbol("}", RBRACE); }
+
 "return"          { return symbol("return",  RET); }
 ";"               { return symbol(";",  SEMI); }
 

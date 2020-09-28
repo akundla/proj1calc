@@ -29,6 +29,7 @@ parser code {:
 
 terminal PLUS, MINUS, MULT, UMINUS;
 terminal LPAREN, RPAREN;
+terminal LBRACE, RBRACE;
 terminal RET, SEMI;
 terminal INT;
 terminal IF, ELSE;
@@ -46,6 +47,7 @@ non terminal BinaryExpr      binaryExpr;
 non terminal Cond            cond;
 non terminal Statement       statement;
 non terminal List<Statement> statementList;
+non terminal FunctionDefinition funcDef;
 
 precedence left PRINT;
 // Simple way to give if-else statements higher precedence than just if statements
@@ -63,8 +65,12 @@ precedence left UMINUS;
 
 start with program;
 
-program ::= statementList:sl
-            {: RESULT = new Program(sl, loc(slleft, slright)); :}
+program ::= funcDef:fd
+            {: RESULT = new Program(fd, loc(fdleft, fdright)); :}
+         ;
+
+funcDef ::= LPAREN RPAREN LBRACE statementList:sl RBRACE
+            {: RESULT = new FunctionDefinition(sl, loc(slleft, slright)); :}
          ;
 
 statementList ::= statement:s statementList:sl
