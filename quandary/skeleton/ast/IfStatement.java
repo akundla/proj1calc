@@ -20,7 +20,7 @@ public class IfStatement extends Statement {
 
     @Override
     Object exec(HashMap<String, Long> variables) {
-        if (this.condition.eval()) {
+        if (this.condition.eval(variables)) {
             return this.statement.exec(variables);
         }
         else {

@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class UnaryExpr extends Expr {
 
     public static final int UNARY_NEGATION = 1;
@@ -27,8 +29,8 @@ public class UnaryExpr extends Expr {
     }
 
     @Override
-    Object eval() {
-        return doOperation(operator, expr.eval());
+    Object eval(HashMap<String, Long> variables) {
+        return doOperation(operator, expr.eval(variables));
     }
 
     static Object doOperation(int operator, Object value) {

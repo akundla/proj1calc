@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class BinaryExpr extends Expr {
 
     public static final int PLUS = 1;
@@ -33,8 +35,8 @@ public class BinaryExpr extends Expr {
     }
 
     @Override
-    Object eval() {
-        return doOperation(expr1.eval(), operator, expr2.eval());
+    Object eval(HashMap<String, Long> variables) {
+        return doOperation(expr1.eval(variables), operator, expr2.eval(variables));
     }
 
     static Object doOperation(Object value1, int operator, Object value2) {

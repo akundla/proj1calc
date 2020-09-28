@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class BinaryCond extends Cond {
 
     public static final int BOOL_AND = 7;
@@ -31,8 +33,8 @@ public class BinaryCond extends Cond {
     }
 
     @Override
-    boolean eval() {
-        return doOperation(expr1.eval(), operator, expr2.eval());
+    boolean eval(HashMap<String, Long> variables) {
+        return doOperation(expr1.eval(variables), operator, expr2.eval(variables));
     }
 
     static boolean doOperation(boolean value1, int operator, boolean value2) {

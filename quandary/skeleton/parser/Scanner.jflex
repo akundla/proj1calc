@@ -101,6 +101,12 @@ white_space = {new_line} | [ \t\f]
 
 {white_space}     { /* ignore */ }
 
+/* Identifiers, which start with a letter or an underscore,
+    may be followed by a sequence of letters, numbers, or underscores,
+    and may not exceed 31 characters */
+[_a-zA-Z][_a-zA-Z0-9]{0,30}
+                  { return symbol("Ident", IDENT, new String(yytext())); }
+
 }
 
 /* error fallback */

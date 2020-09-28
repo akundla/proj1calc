@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class UnaryCond extends Cond {
 
     public static final int BOOL_NOT = 1;
@@ -27,8 +29,8 @@ public class UnaryCond extends Cond {
     }
 
     @Override
-    boolean eval() {
-        return doOperation(operator, cond.eval());
+    boolean eval(HashMap<String, Long> variables) {
+        return doOperation(operator, cond.eval(variables));
     }
 
     static boolean doOperation(int operator, boolean value) {

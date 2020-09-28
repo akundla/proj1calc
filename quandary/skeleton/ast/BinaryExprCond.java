@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class BinaryExprCond extends Cond {
 
     public static final int LESS_THAN = 1;
@@ -39,9 +41,9 @@ public class BinaryExprCond extends Cond {
     }
 
     @Override
-    boolean eval() {
+    boolean eval(HashMap<String, Long> variables) {
         // Expressions evaluate only to longs thus they can be cast
-        return doOperation((long)expr1.eval(), operator, (long)expr2.eval());
+        return doOperation((long)expr1.eval(variables), operator, (long)expr2.eval(variables));
     }
 
     static boolean doOperation(long value1, int operator, long value2) {

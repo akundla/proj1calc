@@ -18,6 +18,6 @@ public class ReturnStatement extends Statement {
 
     @Override
     Object exec(HashMap<String, Long> variables) {
-        return this.expr.eval();
+        return this.expr.eval(variables);
     }
 }

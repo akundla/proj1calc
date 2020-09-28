@@ -20,7 +20,7 @@ public class VarDeclareStatement extends Statement {
 
     @Override
     Object exec(HashMap<String, Long> variables) {
-        variables.put(this.identifier, (long)this.rValue.eval());
+        variables.put(this.identifier, (long)this.rValue.eval(variables));
         return null;
     }
 }

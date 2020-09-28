@@ -18,7 +18,7 @@ public class PrintStatement extends Statement {
 
     @Override
     Object exec(HashMap<String, Long> variables) {
-        System.out.println(expr.eval());
+        System.out.println(expr.eval(variables));
         return null;
     }
 }

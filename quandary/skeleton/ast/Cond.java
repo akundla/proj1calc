@@ -1,12 +1,14 @@
 package ast;
 
+import java.util.HashMap;
+
 public abstract class Cond extends ASTNode {
     
     Cond(Location loc) {
         super(loc);
     }
 
-    abstract boolean eval();
+    abstract boolean eval(HashMap<String, Long> variables);
 
     /**
      * 0 denotes boolean false, and anything else denotes boolean true.
