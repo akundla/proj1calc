@@ -39,7 +39,6 @@ terminal BOOL_AND, BOOL_OR;
 terminal ASSIGNMENT;
 terminal BOOL_NOT;
 terminal PRINT;
-terminal IDENTEXPR, FUNCCALL;
 
 terminal Long    INTCONST;
 terminal String  IDENT;
@@ -71,9 +70,6 @@ precedence left PLUS, MINUS;
 precedence left MULT;
 // UMINUS is highest precedence
 precedence left UMINUS;
-
-// Function calls are higher precedence than identifiers
-precedence left FUNCCALL;
 
 start with program;
 
@@ -117,7 +113,7 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
                {: RESULT = new IfStatement(c, s, loc(cleft, cright)); :}
                %prec IF
             | RET expr:e SEMI
-               {: System.out.println("reached return statement production."); RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
+               {: RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
             | PRINT LPAREN expr:e RPAREN SEMI
                {: RESULT = new PrintStatement(e, loc(eleft, eright)); :}
             | INT IDENT:i ASSIGNMENT expr:e SEMI
@@ -149,21 +145,18 @@ cond ::= LPAREN cond:c RPAREN
       ;
 
 expr ::= INTCONST:c
-         {: System.out.println("reached ConstExpr production."); RESULT = new ConstExpr(c, loc(cleft, cright)); :}
+         {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
       |  binaryExpr:e
-         {: System.out.println("reached BinaryExpr production."); RESULT = e; :}
+         {: RESULT = e; :}
       |  MINUS expr:e
-         {: System.out.println("reached UnaryExpr production."); RESULT = new UnaryExpr(UnaryExpr.UNARY_NEGATION, e, loc(eleft, eright)); :}
+         {: RESULT = new UnaryExpr(UnaryExpr.UNARY_NEGATION, e, loc(eleft, eright)); :}
          %prec UMINUS
       |  IDENT:i LPAREN exprList:el RPAREN
-         {: System.out.println("reached FunctionCallExpression production."); RESULT = new FunctionCallExpr(i, loc(ileft, iright)); :}
-         %prec FUNCCALL
+         {: RESULT = new FunctionCallExpr(i, loc(ileft, iright)); :}
       |  LPAREN expr:e RPAREN
-         {: System.out.println("reached Expression in parentheses production."); RESULT = e; :}
-         /*%prec IDENTEXPR*/
+         {: RESULT = e; :}
       |  IDENT:i
-         {: System.out.println("reached Identifier production."); RESULT = new IdentifierExpr(i, loc(ileft, iright)); :}
-         /*%prec IDENTEXPR*/
+         {: RESULT = new IdentifierExpr(i, loc(ileft, iright)); :}
       ;
 
 exprList ::= neExprList:neEL
