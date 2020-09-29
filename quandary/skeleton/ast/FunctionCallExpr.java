@@ -6,6 +6,8 @@ import java.util.List;
 
 public class FunctionCallExpr extends Expr {
 
+    private static final String RANDOM_INT_IDENT = "randomInt";
+
     final String identifier;
     final List<Expr> arguments;
 
@@ -31,6 +33,10 @@ public class FunctionCallExpr extends Expr {
             }
             
             return func.exec(argVals);
+        }
+        else if (this.identifier.equals(RANDOM_INT_IDENT)) {
+            long n = (long)this.arguments.get(0).eval(variables);
+            return (long)(n * Math.random());
         }
         else {
             return null;
