@@ -20,7 +20,8 @@ public class FunctionCallExpr extends Expr {
     Object eval(HashMap<String, Long> variables) {
         FunctionDefinition func = Program.FunctionMap.get(this.identifier);
         if (func != null) {
-            return func.exec();
+            HashMap<String, Long> newLocalEnv = new HashMap<String, Long>();
+            return func.exec(newLocalEnv);
         }
         else {
             return null;

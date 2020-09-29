@@ -65,6 +65,8 @@ white_space = {new_line} | [ \t\f]
 "-"               { return symbol("-",  MINUS); }
 "*"               { return symbol("*",  MULT); }
 
+","               { return symbol(",",  COMMA); }
+
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
 

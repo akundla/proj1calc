@@ -13,7 +13,7 @@ public class ReturnStatement extends Statement {
 
     @Override
     public String toString() {
-        return "return " + this.expr.toString() + ";\n\r";
+        return "return " + this.expr.toString() + ";";
     }
 
     @Override

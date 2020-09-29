@@ -16,9 +16,9 @@ public class StatementList extends Statement {
     public String toString() {
         String s = "{\n\r";
         for (Statement statement : this.statements) {
-            s += statement + "\n\r";
+            s += "\t" + statement + "\n\r";
         }
-        s += "}\n\r";
+        s += "\t}\n\r";
         return s;
     }
 

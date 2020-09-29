@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class FunctionDefinitionList extends ASTNode {
@@ -15,17 +16,19 @@ public class FunctionDefinitionList extends ASTNode {
 
     @Override
     public String toString() {
-        String s = null;
+        String s = "";
         for (FunctionDefinition functionDef : this.functionDefs) {
             s += functionDef + "\n\r";
         }
         return s;
     }
 
-    public Object exec() {
+    public Object exec(long argument) {
         FunctionDefinition main = FunctionDefinitionList.getMain(this.functionDefs);
         if (main != null) {
-            return main.exec();
+            HashMap<String, Long> mainEnv = new HashMap<String, Long>();
+            mainEnv.put("arg", argument);
+            return main.exec(mainEnv);
         }
         else {
             return null;

@@ -18,7 +18,7 @@ public class IfElseStatement extends Statement {
     @Override
     public String toString() {
         return "if (" + this.condition.toString() + ") \n\r\t" + this.statement1.toString()
-            + "\n\r" + "else"
+            + "\n\r\t" + "else"
             + "\n\r\t" + this.elseStatement.toString();
     }
 

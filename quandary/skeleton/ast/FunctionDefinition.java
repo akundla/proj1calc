@@ -6,21 +6,26 @@ import java.util.List;
 public class FunctionDefinition extends ASTNode {
 
     final String functionName;
+    final List<String> formalParameters;
     final StatementList statements;
-    final HashMap<String, Long> varEnv;
 
-    public FunctionDefinition(String funcName, List<Statement> statements, Location loc) {
+    public FunctionDefinition(String funcName, List<String> formalParams, List<Statement> statements, Location loc) {
         super(loc);
         this.functionName = funcName;
+        this.formalParameters = formalParams;
         this.statements = new StatementList(statements, loc);
-        this.varEnv = new HashMap<String, Long>();
     }
 
     public String toString() {
-        return "(" + "" + ")" + "{\n\r" + this.statements + "\n\r}";
+        String s = this.functionName + " (";
+        for (String param : this.formalParameters) {
+            s += "int " + param + ", ";
+        }
+        s += ") " + this.statements;
+        return s;
     }
 
-    public Object exec() {
-        return this.statements.exec(this.varEnv);
+    public Object exec(HashMap<String, Long> params) {
+        return this.statements.exec(params);
     }
 }
