@@ -53,7 +53,7 @@ non terminal List<Statement>        statementList;
 non terminal FunctionDefinition     funcDef;
 non terminal List<FunctionDefinition> funcDefList;
 non terminal List<String>           formalDeclList;
-non terminal String                 formalDecl;
+non terminal List<String>           neFormalDeclList;
 non terminal List<Expr>             exprList;
 non terminal List<Expr>             neExprList;
 
@@ -87,23 +87,21 @@ funcDefList ::= funcDef:fd funcDefList:fdl
                {: RESULT = new ArrayList<FunctionDefinition>(); :}    
             ;
 
-
 funcDef ::= INT IDENT:i LPAREN formalDeclList:formaldl RPAREN LBRACE statementList:sl RBRACE
             {: RESULT = new FunctionDefinition(i, formaldl, sl, loc(slleft, slright)); :}
          ;
 
-formalDeclList ::= formalDecl:formald formalDeclList:formaldl
-                     {: formaldl.add(0, formald); RESULT = formaldl; :}
+formalDeclList ::= neFormalDeclList:neFormaldl
+                     {: RESULT = neFormaldl; :}
                   | /* empty */
                      {: RESULT = new ArrayList<String>(); :}
                   ;
 
-formalDecl ::= INT IDENT:i COMMA
-                  {: RESULT = i; :}
-               | INT IDENT:i
-                  {: RESULT = i; :}
-               ;
-
+neFormalDeclList ::= INT IDENT:i COMMA neFormalDeclList:neFormaldl
+                     {: neFormaldl.add(0, i); RESULT = neFormaldl; :}
+                  | INT IDENT:i
+                     {: List<String> newFormalDecls = new ArrayList<String>(); newFormalDecls.add(0, i); RESULT = newFormalDecls; :}
+                  ;
 
 statementList ::= statement:s statementList:sl
                   /* For unknown reasons even with the above grammar the statements get parsed last-to-first, hence they are added to the list at index 0. */
