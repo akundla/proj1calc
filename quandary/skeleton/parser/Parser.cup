@@ -55,11 +55,8 @@ non terminal List<FunctionDefinition> funcDefList;
 non terminal List<String>           formalDeclList;
 non terminal String                 formalDecl;
 non terminal List<Expr>             exprList;
-non terminal Expr                   exprListEntry;
+non terminal List<Expr>             neExprList;
 
-// Function calls are higher precedence than identifiers
-precedence left IDENTEXPR;
-precedence left FUNCCALL;
 
 precedence left PRINT;
 // Simple way to give if-else statements higher precedence than just if statements
@@ -75,6 +72,9 @@ precedence left MULT;
 // UMINUS is highest precedence
 precedence left UMINUS;
 
+// Function calls are higher precedence than identifiers
+precedence left FUNCCALL;
+
 start with program;
 
 program ::= funcDefList:fdl
@@ -88,7 +88,7 @@ funcDefList ::= funcDef:fd funcDefList:fdl
             ;
 
 
-funcDef ::= IDENT:i LPAREN formalDeclList:formaldl RPAREN LBRACE statementList:sl RBRACE
+funcDef ::= INT IDENT:i LPAREN formalDeclList:formaldl RPAREN LBRACE statementList:sl RBRACE
             {: RESULT = new FunctionDefinition(i, formaldl, sl, loc(slleft, slright)); :}
          ;
 
@@ -119,7 +119,7 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
                {: RESULT = new IfStatement(c, s, loc(cleft, cright)); :}
                %prec IF
             | RET expr:e SEMI
-               {: RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
+               {: System.out.println("reached return statement production."); RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
             | PRINT LPAREN expr:e RPAREN SEMI
                {: RESULT = new PrintStatement(e, loc(eleft, eright)); :}
             | INT IDENT:i ASSIGNMENT expr:e SEMI
@@ -151,35 +151,33 @@ cond ::= LPAREN cond:c RPAREN
       ;
 
 expr ::= INTCONST:c
-         {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
+         {: System.out.println("reached ConstExpr production."); RESULT = new ConstExpr(c, loc(cleft, cright)); :}
       |  binaryExpr:e
-         {: RESULT = e; :}
-      |  LPAREN expr:e RPAREN
-         {: RESULT = e; :}
-         %prec IDENTEXPR
+         {: System.out.println("reached BinaryExpr production."); RESULT = e; :}
       |  MINUS expr:e
-         {: RESULT = new UnaryExpr(UnaryExpr.UNARY_NEGATION, e, loc(eleft, eright)); :}
+         {: System.out.println("reached UnaryExpr production."); RESULT = new UnaryExpr(UnaryExpr.UNARY_NEGATION, e, loc(eleft, eright)); :}
          %prec UMINUS
       |  IDENT:i LPAREN exprList:el RPAREN
-         {: RESULT = new FunctionCallExpr(i, loc(ileft, iright)); :}
+         {: System.out.println("reached FunctionCallExpression production."); RESULT = new FunctionCallExpr(i, loc(ileft, iright)); :}
          %prec FUNCCALL
+      |  LPAREN expr:e RPAREN
+         {: System.out.println("reached Expression in parentheses production."); RESULT = e; :}
+         /*%prec IDENTEXPR*/
       |  IDENT:i
-         {: RESULT = new IdentifierExpr(i, loc(ileft, iright)); :}
-         %prec IDENTEXPR
+         {: System.out.println("reached Identifier production."); RESULT = new IdentifierExpr(i, loc(ileft, iright)); :}
+         /*%prec IDENTEXPR*/
       ;
-// %prec is there to give the whole production the precedence of UMINUS instead of merely expr
-// Doing 0 minus EXPR is simpler than modifying the ast nodes
 
-exprList ::= exprListEntry:ele exprList:el
-                  {: el.add(0, ele); RESULT = el; :}
+exprList ::= neExprList:neEL
+                  {: RESULT = neEL; :}
                | /* empty */
                   {: RESULT = new ArrayList<Expr>(); :}
                ;
 
-exprListEntry ::= expr:e COMMA
-                  {: RESULT = e; :}
+neExprList ::= expr:e COMMA neExprList:neEL
+                  {: neEL.add(0, e); RESULT = neEL; :}
                | expr:e
-                  {: RESULT = e; :}
+                  {: List<Expr> newExprList = new ArrayList<Expr>(); newExprList.add(0, e); RESULT = newExprList; :}
                ;
 
 binaryExpr ::= expr:e1 PLUS expr:e2

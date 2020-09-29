@@ -1,9 +1,9 @@
-notMainButFirst (int a) {
+int notMainButFirst (int a) {
     print(a);
     return a;
 }
 
-main () {
+int main () {
     print(42069);
     print(8);
     int year = 2020;

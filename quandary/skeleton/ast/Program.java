@@ -24,8 +24,6 @@ public class Program extends ASTNode {
     }
 
     public Object exec(long argument) {
-        this.println(System.out);
-        return 55;
-        //return this.functionDefs.exec(argument);
+        return this.functionDefs.exec(argument);
     }
 }
