@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class FunctionDefinitionList extends ASTNode {
     public Object exec(long argument) {
         FunctionDefinition main = FunctionDefinitionList.getMain(this.functionDefs);
         if (main != null) {
-            HashMap<String, Long> mainEnv = new HashMap<String, Long>();
-            mainEnv.put("arg", argument);
+            List<Long> mainEnv = new ArrayList<Long>();
+            mainEnv.add(argument);
             return main.exec(mainEnv);
         }
         else {

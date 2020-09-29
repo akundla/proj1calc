@@ -152,7 +152,7 @@ expr ::= INTCONST:c
          {: RESULT = new UnaryExpr(UnaryExpr.UNARY_NEGATION, e, loc(eleft, eright)); :}
          %prec UMINUS
       |  IDENT:i LPAREN exprList:el RPAREN
-         {: RESULT = new FunctionCallExpr(i, loc(ileft, iright)); :}
+         {: RESULT = new FunctionCallExpr(i, el, loc(ileft, iright)); :}
       |  LPAREN expr:e RPAREN
          {: RESULT = e; :}
       |  IDENT:i
