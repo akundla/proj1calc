@@ -114,7 +114,7 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
                %prec IF
             | RET expr:e SEMI
                {: RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
-            | PRINT LPAREN expr:e RPAREN SEMI
+            | PRINT expr:e SEMI
                {: RESULT = new PrintStatement(e, loc(eleft, eright)); :}
             | INT IDENT:i ASSIGNMENT expr:e SEMI
                {: RESULT = new VarDeclareStatement(i, e, loc(ileft, iright)); :}
