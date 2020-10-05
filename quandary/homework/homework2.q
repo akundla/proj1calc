@@ -93,6 +93,17 @@ int isSorted(Ref listOfLists) {
     return 0;
 }
 
+/* 
+QUESTION 5 (necessity of if-statements for the Turing-completeness of immutable quandary):
+
+Both if-statements and recursion are essential for the turing-completeness of immutable quandary.
+To compute the factorial of integer n, one must multiply n by the factorial of n-1.
+This is an action that must be repeated n times. Executing a repeated statement requires 
+ either iteration or recursion, and iteration is not an option sans mutability. 
+One must stop this repeated action once input n == 1. Since this is not always the case,
+ detecting it requires conditional logic, the only form of which in quandary is an if-statement.
+*/
+
 /* Given a list, returns its length. A list containing only nil has length 0. */
 int length(Ref list) {
     if (isNil(list) != 0) {
