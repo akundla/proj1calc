@@ -85,6 +85,8 @@ white_space = {new_line} | [ \t\f]
 "if"              { return symbol("if",  IF); }
 "else"            { return symbol("else",  ELSE); }
 
+"while"           { return symbol("while", WHILE); }
+
 "<"               { return symbol("<",  LESS_THAN); }
 "<="              { return symbol("<=",  LESS_THAN_OR_EQUAL_TO); }
 ">"               { return symbol(">",  GREATER_THAN); }

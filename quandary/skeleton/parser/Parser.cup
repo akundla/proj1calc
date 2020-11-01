@@ -33,7 +33,7 @@ terminal LPAREN, RPAREN;
 terminal LBRACE, RBRACE;
 terminal RET, SEMI;
 terminal INT, QTYPE, REFTYPE;
-terminal IF, ELSE;
+terminal IF, ELSE, WHILE;
 terminal LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, EQUALITY_CHECK, NON_EQUALITY_CHECK;
 terminal BOOL_AND, BOOL_OR;
 terminal ASSIGNMENT;
@@ -116,6 +116,8 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
             | IF cond:c statement:s
                {: RESULT = new IfStatement(c, s, loc(cleft, cright)); :}
                %prec IF
+            | WHILE LPAREN cond:c RPAREN statement:s
+               {: RESULT = new WhileLoopStatement(c, s, loc(cleft, cright)); :}
             | RET expr:e SEMI
                {: RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
             | PRINT expr:e SEMI
