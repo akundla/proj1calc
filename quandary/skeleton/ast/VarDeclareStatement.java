@@ -15,7 +15,7 @@ public class VarDeclareStatement extends Statement {
 
     @Override
     public String toString() {
-        return "int " + this.varDecl.identifier + " = " + this.rValue;
+        return this.varDecl + " = " + this.rValue;
     }
 
     @Override
