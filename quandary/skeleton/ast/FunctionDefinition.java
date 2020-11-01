@@ -5,21 +5,21 @@ import java.util.List;
 
 public class FunctionDefinition extends ASTNode {
 
-    final String functionName;
-    final List<String> formalParameters;
+    final VarDecl functionIdentifier;
+    final List<VarDecl> formalParameters;
     final StatementList statements;
 
-    public FunctionDefinition(String funcName, List<String> formalParams, List<Statement> statements, Location loc) {
+    public FunctionDefinition(VarDecl funcIdent, List<VarDecl> formalParams, List<Statement> statements, Location loc) {
         super(loc);
-        this.functionName = funcName;
+        this.functionIdentifier = funcIdent;
         this.formalParameters = formalParams;
         this.statements = new StatementList(statements, loc);
     }
 
     public String toString() {
-        String s = this.functionName + " (";
-        for (String param : this.formalParameters) {
-            s += "int " + param + ", ";
+        String s = this.functionIdentifier.identifier + " (";
+        for (VarDecl param : this.formalParameters) {
+            s += param.toString() + ", ";
         }
         s += ") " + this.statements;
         return s;
@@ -29,7 +29,7 @@ public class FunctionDefinition extends ASTNode {
         HashMap<String, Long> localEnv = new HashMap<String, Long>();
 
         for (int i = 0; i < this.formalParameters.size(); i++) {
-            localEnv.put(this.formalParameters.get(i), params.get(i));
+            localEnv.put(this.formalParameters.get(i).identifier, params.get(i));
         }
 
         return this.statements.exec(localEnv);

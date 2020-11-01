@@ -38,7 +38,7 @@ public class FunctionDefinitionList extends ASTNode {
     private static FunctionDefinition getMain(List<FunctionDefinition> funcDefs) {
         if (funcDefs != null && funcDefs.size() > 0) {
             for (int i = 0; i < funcDefs.size(); i++) {
-                if (funcDefs.get(i).functionName.equals(MAIN)) {
+                if (funcDefs.get(i).functionIdentifier.identifier.equals(MAIN)) {
                     return funcDefs.get(i);
                 }
             }

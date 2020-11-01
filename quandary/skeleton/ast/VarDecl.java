@@ -10,4 +10,23 @@ public class VarDecl {
         this.typeCode = typeCode;
         this.identifier = ident;
     }
+
+    @Override
+    public String toString() {
+        String s = "";
+        if (this.isMutable) {
+            s = "mutable" + " ";
+        }
+
+        if (this.typeCode == VAR_TYPE.INT) {
+            s += "int";
+        }
+        else if (this.typeCode == VAR_TYPE.Q) {
+            s += "Q";
+        }
+        else if (this.typeCode == VAR_TYPE.REF) {
+            s += "Ref";
+        }
+        return s + " " + this.identifier;
+    }
 }

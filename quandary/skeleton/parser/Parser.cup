@@ -44,20 +44,20 @@ terminal MUTABLE;
 terminal Long     INTCONST;
 terminal String   IDENT;
 
-non terminal Program                program;
-non terminal Expr                   expr;
-non terminal BinaryExpr             binaryExpr;
-non terminal Cond                   cond;
-non terminal Statement              statement;
-non terminal List<Statement>        statementList;
-non terminal FunctionDefinition     funcDef;
+non terminal Program                  program;
+non terminal Expr                     expr;
+non terminal BinaryExpr               binaryExpr;
+non terminal Cond                     cond;
+non terminal Statement                statement;
+non terminal List<Statement>          statementList;
+non terminal FunctionDefinition       funcDef;
 non terminal List<FunctionDefinition> funcDefList;
-non terminal List<String>           formalDeclList;
-non terminal List<String>           neFormalDeclList;
-non terminal List<Expr>             exprList;
-non terminal List<Expr>             neExprList;
-non terminal VarDecl                varDecl;
-non terminal VAR_TYPE               varType;
+non terminal List<VarDecl>            formalDeclList;
+non terminal List<VarDecl>            neFormalDeclList;
+non terminal List<Expr>               exprList;
+non terminal List<Expr>               neExprList;
+non terminal VarDecl                  varDecl;
+non terminal VAR_TYPE                 varType;
 
 
 precedence left PRINT;
@@ -86,20 +86,20 @@ funcDefList ::= funcDef:fd funcDefList:fdl
                {: RESULT = new ArrayList<FunctionDefinition>(); :}    
             ;
 
-funcDef ::= INT IDENT:i LPAREN formalDeclList:formaldl RPAREN LBRACE statementList:sl RBRACE
-            {: RESULT = new FunctionDefinition(i, formaldl, sl, loc(slleft, slright)); :}
+funcDef ::= varDecl:v LPAREN formalDeclList:formaldl RPAREN LBRACE statementList:sl RBRACE
+            {: RESULT = new FunctionDefinition(v, formaldl, sl, loc(slleft, slright)); :}
          ;
 
 formalDeclList ::= neFormalDeclList:neFormaldl
                      {: RESULT = neFormaldl; :}
                   | /* empty */
-                     {: RESULT = new ArrayList<String>(); :}
+                     {: RESULT = new ArrayList<VarDecl>(); :}
                   ;
 
-neFormalDeclList ::= INT IDENT:i COMMA neFormalDeclList:neFormaldl
-                     {: neFormaldl.add(0, i); RESULT = neFormaldl; :}
-                  | INT IDENT:i
-                     {: List<String> newFormalDecls = new ArrayList<String>(); newFormalDecls.add(0, i); RESULT = newFormalDecls; :}
+neFormalDeclList ::= varDecl:v COMMA neFormalDeclList:neFormaldl
+                     {: neFormaldl.add(0, v); RESULT = neFormaldl; :}
+                  | varDecl:v
+                     {: List<VarDecl> newFormalDecls = new ArrayList<VarDecl>(); newFormalDecls.add(0, v); RESULT = newFormalDecls; :}
                   ;
 
 statementList ::= statement:s statementList:sl

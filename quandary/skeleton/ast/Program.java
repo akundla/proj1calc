@@ -15,7 +15,7 @@ public class Program extends ASTNode {
         this.functionDefs = new FunctionDefinitionList(funcDefs, loc);
 
         for (int i = 0; i < funcDefs.size(); i++) {
-            Program.FunctionMap.put(funcDefs.get(i).functionName, funcDefs.get(i));
+            Program.FunctionMap.put(funcDefs.get(i).functionIdentifier.identifier, funcDefs.get(i));
         }
     }
 
