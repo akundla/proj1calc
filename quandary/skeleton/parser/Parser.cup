@@ -58,6 +58,7 @@ non terminal List<Expr>               exprList;
 non terminal List<Expr>               neExprList;
 non terminal VarDecl                  varDecl;
 non terminal VAR_TYPE                 varType;
+non terminal FunctionCallExpr         funcCallExpr;
 
 
 precedence left PRINT;
@@ -125,6 +126,8 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
                {: RESULT = new AssignmentStatement(i, e, loc(ileft, iright)); :}
             | LBRACE statementList:sl RBRACE
                {: RESULT = new StatementList(sl, loc(slleft, slright)); :}
+            | funcCallExpr:fce SEMI
+               {: RESULT = new MutFuncCallStatement(fce, loc(fceleft, fceright)); :}
             ;
 
 varDecl ::= varType:t IDENT:i
@@ -170,13 +173,17 @@ expr ::= INTCONST:c
       |  MINUS expr:e
          {: RESULT = new UnaryExpr(UnaryExpr.UNARY_NEGATION, e, loc(eleft, eright)); :}
          %prec UMINUS
-      |  IDENT:i LPAREN exprList:el RPAREN
-         {: RESULT = new FunctionCallExpr(i, el, loc(ileft, iright)); :}
+      |  funcCallExpr:fce
+         {: RESULT = fce; :}
       |  LPAREN expr:e RPAREN
          {: RESULT = e; :}
       |  IDENT:i
          {: RESULT = new IdentifierExpr(i, loc(ileft, iright)); :}
       ;
+
+funcCallExpr ::= IDENT:i LPAREN exprList:el RPAREN
+               {: RESULT = new FunctionCallExpr(i, el, loc(ileft, iright)); :}
+            ;
 
 exprList ::= neExprList:neEL
                   {: RESULT = neEL; :}

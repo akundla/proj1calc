@@ -19,7 +19,12 @@ public class FunctionCallExpr extends Expr {
 
     @Override
     public String toString() {
-        return identifier + "(" + "" + ");";
+        String s = identifier + "(";
+        for (int i = 0; i < this.arguments.size(); i++) {
+            s += this.arguments.get(i) + ", ";
+        }
+        s += ");";
+        return s;
     }
 
     @Override
