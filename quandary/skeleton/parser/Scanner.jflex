@@ -77,6 +77,10 @@ white_space = {new_line} | [ \t\f]
 ";"               { return symbol(";",  SEMI); }
 
 "int"             { return symbol("int",  INT); }
+"Q"               { return symbol("Q", QTYPE); }
+"Ref"             { return symbol("Ref", REFTYPE); }
+
+"mutable"         { return symbol("mutable", MUTABLE); }
 
 "if"              { return symbol("if",  IF); }
 "else"            { return symbol("else",  ELSE); }

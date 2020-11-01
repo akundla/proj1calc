@@ -4,23 +4,23 @@ import java.util.HashMap;
 
 public class VarDeclareStatement extends Statement {
     
-    final String identifier;
+    final VarDecl varDecl;
     final Expr rValue;
 
-    public VarDeclareStatement(String ident, Expr expr, Location loc) {
+    public VarDeclareStatement(VarDecl varDecl, Expr expr, Location loc) {
         super(loc);
-        this.identifier = ident;
+        this.varDecl = varDecl;
         this.rValue = expr;
     }
 
     @Override
     public String toString() {
-        return "int " + this.identifier + " = " + this.rValue;
+        return "int " + this.varDecl.identifier + " = " + this.rValue;
     }
 
     @Override
     Object exec(HashMap<String, Long> variables) {
-        variables.put(this.identifier, (long)this.rValue.eval(variables));
+        variables.put(this.varDecl.identifier, (long)this.rValue.eval(variables));
         return null;
     }
 }

@@ -32,16 +32,17 @@ terminal PLUS, MINUS, MULT, UMINUS;
 terminal LPAREN, RPAREN;
 terminal LBRACE, RBRACE;
 terminal RET, SEMI;
-terminal INT;
+terminal INT, QTYPE, REFTYPE;
 terminal IF, ELSE;
 terminal LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, EQUALITY_CHECK, NON_EQUALITY_CHECK;
 terminal BOOL_AND, BOOL_OR;
 terminal ASSIGNMENT;
 terminal BOOL_NOT;
 terminal PRINT;
+terminal MUTABLE;
 
-terminal Long    INTCONST;
-terminal String  IDENT;
+terminal Long     INTCONST;
+terminal String   IDENT;
 
 non terminal Program                program;
 non terminal Expr                   expr;
@@ -55,6 +56,8 @@ non terminal List<String>           formalDeclList;
 non terminal List<String>           neFormalDeclList;
 non terminal List<Expr>             exprList;
 non terminal List<Expr>             neExprList;
+non terminal VarDecl                varDecl;
+non terminal VAR_TYPE               varType;
 
 
 precedence left PRINT;
@@ -116,11 +119,25 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
                {: RESULT = new ReturnStatement(e, loc(eleft, eright)); :}
             | PRINT expr:e SEMI
                {: RESULT = new PrintStatement(e, loc(eleft, eright)); :}
-            | INT IDENT:i ASSIGNMENT expr:e SEMI
-               {: RESULT = new VarDeclareStatement(i, e, loc(ileft, iright)); :}
+            | varDecl:v ASSIGNMENT expr:e SEMI
+               {: RESULT = new VarDeclareStatement(v, e, loc(vleft, vright)); :}
             | LBRACE statementList:sl RBRACE
                {: RESULT = new StatementList(sl, loc(slleft, slright)); :}
             ;
+
+varDecl ::= varType:t IDENT:i
+            {: RESULT = new VarDecl(false, t, i); :}
+         | MUTABLE varType:t IDENT:i
+            {: RESULT = new VarDecl(true, t, i); :}
+         ;
+
+varType ::= INT
+         {: RESULT = VAR_TYPE.INT; :}
+      | QTYPE
+         {: RESULT = VAR_TYPE.Q; :}
+      | REFTYPE
+         {: RESULT = VAR_TYPE.REF; :}
+      ;
 
 cond ::= LPAREN cond:c RPAREN
          {: RESULT = c; :}
