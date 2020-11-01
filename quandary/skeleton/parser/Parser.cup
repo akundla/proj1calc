@@ -121,6 +121,8 @@ statement ::= IF cond:c statement:s1 ELSE statement:elseS
                {: RESULT = new PrintStatement(e, loc(eleft, eright)); :}
             | varDecl:v ASSIGNMENT expr:e SEMI
                {: RESULT = new VarDeclareStatement(v, e, loc(vleft, vright)); :}
+            | IDENT:i ASSIGNMENT expr:e SEMI
+               {: RESULT = new AssignmentStatement(i, e, loc(ileft, iright)); :}
             | LBRACE statementList:sl RBRACE
                {: RESULT = new StatementList(sl, loc(slleft, slright)); :}
             ;
