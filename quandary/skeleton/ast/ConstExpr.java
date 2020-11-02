@@ -3,9 +3,6 @@ package ast;
 import java.util.HashMap;
 
 public class ConstExpr extends Expr {
-    // Predefined constant representation of nil
-    public static final String NIL = "nil";
-
     final Object value;
 
     public ConstExpr(long value, Location loc) {
@@ -13,9 +10,17 @@ public class ConstExpr extends Expr {
         this.value = value;
     }
 
+    public ConstExpr(Location loc) {
+        super(loc);
+        this.value = null;
+    }
+
     @Override
     public String toString() {
-        return value.toString();
+        if (this.value != null)
+            return value.toString();
+        else
+            return "nil";
     }
 
     @Override
@@ -23,7 +28,7 @@ public class ConstExpr extends Expr {
         if (this.value instanceof Long) {
             return new QuandaryIntValue((long)this.value);
         }
-        else if (this.value instanceof String && NIL.equals((String)this.value)) {
+        else if (this.value == null) {
             // Ref of value nil is just a ref with a null reference
             return new QuandaryRefValue(null);
         }

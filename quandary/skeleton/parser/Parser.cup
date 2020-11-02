@@ -40,6 +40,7 @@ terminal ASSIGNMENT;
 terminal BOOL_NOT;
 terminal PRINT;
 terminal MUTABLE;
+terminal NIL;
 
 terminal Long     INTCONST;
 terminal String   IDENT;
@@ -170,6 +171,8 @@ cond ::= LPAREN cond:c RPAREN
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
+      | NIL:n
+         {: RESULT = new ConstExpr(loc(nleft, nright)); :}
       |  binaryExpr:e
          {: RESULT = e; :}
       |  MINUS expr:e

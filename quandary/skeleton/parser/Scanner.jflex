@@ -87,6 +87,8 @@ white_space = {new_line} | [ \t\f]
 
 "while"           { return symbol("while", WHILE); }
 
+"nil"             { return symbol("nil", NIL); }
+
 "<"               { return symbol("<",  LESS_THAN); }
 "<="              { return symbol("<=",  LESS_THAN_OR_EQUAL_TO); }
 ">"               { return symbol(">",  GREATER_THAN); }
