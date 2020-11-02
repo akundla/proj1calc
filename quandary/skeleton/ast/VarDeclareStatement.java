@@ -19,7 +19,7 @@ public class VarDeclareStatement extends Statement {
     }
 
     @Override
-    Object exec(HashMap<String, QuandaryValue> variables) {
+    QuandaryValue exec(HashMap<String, QuandaryValue> variables) {
         variables.put(this.varDecl.identifier, (QuandaryValue)this.rValue.eval(variables));
         return null;
     }

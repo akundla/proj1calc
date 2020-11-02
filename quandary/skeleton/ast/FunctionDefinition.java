@@ -25,13 +25,15 @@ public class FunctionDefinition extends ASTNode {
         return s;
     }
 
-    public Object exec(List<QuandaryValue> params) {
+    // Functions must always return a value (hence why all have a return type of int, q, or ref), so this will return a QuandaryValue
+    public QuandaryValue exec(List<QuandaryValue> params) {
         HashMap<String, QuandaryValue> localEnv = new HashMap<String, QuandaryValue>();
 
         for (int i = 0; i < this.formalParameters.size(); i++) {
             localEnv.put(this.formalParameters.get(i).identifier, params.get(i));
         }
 
-        return this.statements.exec(localEnv);
+        // Not all statementLists return a value, but all function bodies do, so this cast is safe for a statically correct program
+        return (QuandaryValue)this.statements.exec(localEnv);
     }
 }

@@ -16,8 +16,11 @@ public class ReturnStatement extends Statement {
         return "return " + this.expr.toString() + ";";
     }
 
+    /**
+     * Here, the one statement that actually returns something! It is of course a quandaryValue
+     */
     @Override
-    Object exec(HashMap<String, QuandaryValue> variables) {
+    QuandaryValue exec(HashMap<String, QuandaryValue> variables) {
         return this.expr.eval(variables);
     }
 }

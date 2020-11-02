@@ -16,8 +16,11 @@ public class MutFuncCallStatement extends Statement {
         return this.funcCallExpr.toString();
     }
 
+    /**
+     * If this was called then the return value is meant to be ignored, so ret null.
+     */
     @Override
-    Object exec(HashMap<String, QuandaryValue> variables) {
+    QuandaryValue exec(HashMap<String, QuandaryValue> variables) {
         funcCallExpr.eval(variables);
         return null;
     }
