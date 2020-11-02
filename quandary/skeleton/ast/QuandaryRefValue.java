@@ -2,7 +2,7 @@ package ast;
 
 public class QuandaryRefValue extends QuandaryValue {
     // If this is null, then it represents the value nil;
-    public final QuandaryObject referencedQObject;
+    public QuandaryObject referencedQObject;
 
     public QuandaryRefValue(QuandaryObject qObj) {
         this.referencedQObject = qObj;
