@@ -4,18 +4,18 @@ import java.util.HashMap;
 
 public class BinaryExpr extends Expr {
 
-    public static final int PLUS = 1;
-    public static final int MINUS = 2;
-    public static final int MULT = 3;
+    public static enum OPERATOR {
+        PLUS, MINUS, MULT, DOT
+    };
 
     final Expr expr1;
-    final int operator;
+    final OPERATOR op;
     final Expr expr2;
 
-    public BinaryExpr(Expr expr1, int operator, Expr expr2, Location loc) {
+    public BinaryExpr(Expr expr1, OPERATOR operator, Expr expr2, Location loc) {
         super(loc);
         this.expr1 = expr1;
-        this.operator = operator;
+        this.op = operator;
         this.expr2 = expr2;
     }
 
@@ -26,26 +26,39 @@ public class BinaryExpr extends Expr {
 
     public String simpleString() {
         String s = null;
-        switch (operator) {
+        switch (this.op) {
             case PLUS:  s = "+"; break;
             case MINUS: s = "-"; break;
             case MULT: s = "*"; break;
+            case DOT: s = "."; break;
         }
         return expr1 + " " + s + " " + expr2;
     }
 
     @Override
     QuandaryValue eval(HashMap<String, QuandaryValue> variables) {
-        return new QuandaryIntValue(
-            doOperation(
-                ((QuandaryIntValue)expr1.eval(variables)).value,
-                operator,
-                ((QuandaryIntValue)expr2.eval(variables)).value
-            )
-        );
+        if (this.op == OPERATOR.PLUS
+            || this.op == OPERATOR.MINUS
+            || this.op == OPERATOR.MULT) {
+            return new QuandaryIntValue(
+                doOperation(
+                    ((QuandaryIntValue)expr1.eval(variables)).value,
+                    this.op,
+                    ((QuandaryIntValue)expr2.eval(variables)).value
+                )
+            );
+        }
+        else if (this.op == OPERATOR.DOT) {
+            return new QuandaryRefValue(
+                new QuandaryObject(this.expr1.eval(variables), this.expr1.eval(variables))
+            );
+        }
+        else {
+            throw new RuntimeException("Operator not recognized.");
+        }
     }
 
-    static Long doOperation(long value1, int operator, long value2) {
+    static Long doOperation(long value1, OPERATOR operator, long value2) {
         switch (operator) {
             case PLUS:  return value1 + value2;
             case MINUS: return value1 - value2;
