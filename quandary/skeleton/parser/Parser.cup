@@ -28,7 +28,7 @@ parser code {:
 :};
 
 terminal COMMA;
-terminal PLUS, MINUS, MULT, UMINUS;
+terminal PLUS, MINUS, MULT, UMINUS, DOT;
 terminal LPAREN, RPAREN;
 terminal LBRACE, RBRACE;
 terminal RET, SEMI;
@@ -41,6 +41,7 @@ terminal BOOL_NOT;
 terminal PRINT;
 terminal MUTABLE;
 terminal NIL;
+terminal CAST;
 
 terminal Long     INTCONST;
 terminal String   IDENT;
@@ -70,11 +71,15 @@ precedence left ELSE;
 precedence left BOOL_AND, BOOL_OR;
 precedence left BOOL_NOT;
 precedence left LESS_THAN_OR_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, EQUALITY_CHECK, NON_EQUALITY_CHECK, LESS_THAN, GREATER_THAN;
+
+precedence left DOT;
+
 precedence left PLUS, MINUS;
 // MULT goes one line below because it is higher precedence than either PLUS or MINUS
 precedence left MULT;
 // UMINUS is highest precedence
 precedence left UMINUS;
+precedence left CAST;
 
 start with program;
 
@@ -186,6 +191,7 @@ expr ::= INTCONST:c
          {: RESULT = new IdentifierExpr(i, loc(ileft, iright)); :}
       | LPAREN varType:vt RPAREN expr:e
          {: RESULT = new CastExpr(vt, e, loc(vtleft, vtright)); :}
+         %prec CAST
       ;
 
 funcCallExpr ::= IDENT:i LPAREN exprList:el RPAREN

@@ -50,7 +50,7 @@ public class BinaryExpr extends Expr {
         }
         else if (this.op == OPERATOR.DOT) {
             return new QuandaryRefValue(
-                new QuandaryObject(this.expr1.eval(variables), this.expr1.eval(variables))
+                new QuandaryObject(this.expr1.eval(variables), this.expr2.eval(variables))
             );
         }
         else {
