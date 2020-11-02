@@ -29,7 +29,7 @@ public class UnaryExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, Long> variables) {
+    Object eval(HashMap<String, QuandaryValue> variables) {
         return doOperation(operator, expr.eval(variables));
     }
 

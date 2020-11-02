@@ -26,8 +26,8 @@ public class FunctionDefinitionList extends ASTNode {
     public Object exec(long argument) {
         FunctionDefinition main = FunctionDefinitionList.getMain(this.functionDefs);
         if (main != null) {
-            List<Long> mainEnv = new ArrayList<Long>();
-            mainEnv.add(argument);
+            List<QuandaryValue> mainEnv = new ArrayList<QuandaryValue>();
+            mainEnv.add(new QuandaryIntValue(argument));
             return main.exec(mainEnv);
         }
         else {

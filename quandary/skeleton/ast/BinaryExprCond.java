@@ -41,11 +41,16 @@ public class BinaryExprCond extends Cond {
     }
 
     @Override
-    boolean eval(HashMap<String, Long> variables) {
+    boolean eval(HashMap<String, QuandaryValue> variables) {
         // Expressions evaluate only to longs thus they can be cast
-        return doOperation((long)expr1.eval(variables), operator, (long)expr2.eval(variables));
+        return doOperation(
+            ((QuandaryIntValue)expr1.eval(variables)).value,
+            operator,
+            ((QuandaryIntValue)expr2.eval(variables)).value
+        );
     }
 
+    // From the lang spec: All of the ops are on longs only
     static boolean doOperation(long value1, int operator, long value2) {
         switch (operator) {
             case LESS_THAN:  return value1 < value2;

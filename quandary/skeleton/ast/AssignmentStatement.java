@@ -19,8 +19,8 @@ public class AssignmentStatement extends Statement {
     }
 
     @Override
-    Object exec(HashMap<String, Long> variables) {
-        variables.put(this.ident, (long)this.rValue.eval(variables));
+    Object exec(HashMap<String, QuandaryValue> variables) {
+        variables.put(this.ident, (QuandaryValue)this.rValue.eval(variables));
         return null;
     }
 }

@@ -29,7 +29,7 @@ public class UnaryCond extends Cond {
     }
 
     @Override
-    boolean eval(HashMap<String, Long> variables) {
+    boolean eval(HashMap<String, QuandaryValue> variables) {
         return doOperation(operator, cond.eval(variables));
     }
 

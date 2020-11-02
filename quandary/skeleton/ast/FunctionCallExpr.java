@@ -28,13 +28,13 @@ public class FunctionCallExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, Long> variables) {
+    Object eval(HashMap<String, QuandaryValue> variables) {
         FunctionDefinition func = Program.FunctionMap.get(this.identifier);
         if (func != null) {
-            List<Long> argVals = new ArrayList<Long>();
+            List<QuandaryValue> argVals = new ArrayList<QuandaryValue>();
 
             for (int i = 0; i < this.arguments.size(); i ++) {
-                argVals.add(i, (long)this.arguments.get(i).eval(variables));
+                argVals.add(i, (QuandaryValue)this.arguments.get(i).eval(variables));
             }
             
             return func.exec(argVals);

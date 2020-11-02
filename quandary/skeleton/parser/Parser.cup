@@ -57,7 +57,7 @@ non terminal List<VarDecl>            neFormalDeclList;
 non terminal List<Expr>               exprList;
 non terminal List<Expr>               neExprList;
 non terminal VarDecl                  varDecl;
-non terminal VAR_TYPE                 varType;
+non terminal VarDecl.VAR_TYPE         varType;
 non terminal FunctionCallExpr         funcCallExpr;
 
 
@@ -139,11 +139,11 @@ varDecl ::= varType:t IDENT:i
          ;
 
 varType ::= INT
-         {: RESULT = VAR_TYPE.INT; :}
+         {: RESULT = VarDecl.VAR_TYPE.INT; :}
       | QTYPE
-         {: RESULT = VAR_TYPE.Q; :}
+         {: RESULT = VarDecl.VAR_TYPE.Q; :}
       | REFTYPE
-         {: RESULT = VAR_TYPE.REF; :}
+         {: RESULT = VarDecl.VAR_TYPE.REF; :}
       ;
 
 cond ::= LPAREN cond:c RPAREN

@@ -8,5 +8,5 @@ public abstract class Statement extends ASTNode {
         super(loc);
     }
 
-    abstract Object exec(HashMap<String, Long> variables);
+    abstract Object exec(HashMap<String, QuandaryValue> variables);
 }

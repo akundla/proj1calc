@@ -35,7 +35,7 @@ public class BinaryExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, Long> variables) {
+    Object eval(HashMap<String, QuandaryValue> variables) {
         return doOperation(expr1.eval(variables), operator, expr2.eval(variables));
     }
 

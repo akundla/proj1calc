@@ -19,7 +19,7 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    Object exec(HashMap<String, Long> variables) {
+    Object exec(HashMap<String, QuandaryValue> variables) {
         if (this.condition.eval(variables)) {
             return this.statement.exec(variables);
         }

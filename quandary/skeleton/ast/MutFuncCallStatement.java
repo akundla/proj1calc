@@ -17,7 +17,7 @@ public class MutFuncCallStatement extends Statement {
     }
 
     @Override
-    Object exec(HashMap<String, Long> variables) {
+    Object exec(HashMap<String, QuandaryValue> variables) {
         funcCallExpr.eval(variables);
         return null;
     }

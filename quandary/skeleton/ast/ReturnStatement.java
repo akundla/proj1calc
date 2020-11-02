@@ -17,7 +17,7 @@ public class ReturnStatement extends Statement {
     }
 
     @Override
-    Object exec(HashMap<String, Long> variables) {
+    Object exec(HashMap<String, QuandaryValue> variables) {
         return this.expr.eval(variables);
     }
 }

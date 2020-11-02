@@ -19,7 +19,7 @@ public class WhileLoopStatement extends Statement {
     }
 
     @Override
-    Object exec(HashMap<String, Long> variables) {
+    Object exec(HashMap<String, QuandaryValue> variables) {
         while (this.condition.eval(variables)) {
             Object statementRetVal = this.statement.exec(variables);
             if (statementRetVal != null) {

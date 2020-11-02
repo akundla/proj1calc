@@ -1,6 +1,12 @@
 package ast;
 
 public class VarDecl {
+    public static enum VAR_TYPE {
+        INT,
+        REF,
+        Q
+    }
+
     final boolean isMutable;
     final VAR_TYPE typeCode;
     final String identifier;

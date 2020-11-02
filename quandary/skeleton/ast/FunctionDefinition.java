@@ -25,8 +25,8 @@ public class FunctionDefinition extends ASTNode {
         return s;
     }
 
-    public Object exec(List<Long> params) {
-        HashMap<String, Long> localEnv = new HashMap<String, Long>();
+    public Object exec(List<QuandaryValue> params) {
+        HashMap<String, QuandaryValue> localEnv = new HashMap<String, QuandaryValue>();
 
         for (int i = 0; i < this.formalParameters.size(); i++) {
             localEnv.put(this.formalParameters.get(i).identifier, params.get(i));

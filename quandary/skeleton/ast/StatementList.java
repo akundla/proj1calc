@@ -22,7 +22,7 @@ public class StatementList extends Statement {
         return s;
     }
 
-    public Object exec(HashMap<String, Long> variables) {
+    public Object exec(HashMap<String, QuandaryValue> variables) {
         for (int i = 0; i < this.statements.size(); i++) {
             Object tempVal = this.statements.get(i).exec(variables);
             if (tempVal != null) {

@@ -33,7 +33,7 @@ public class BinaryCond extends Cond {
     }
 
     @Override
-    boolean eval(HashMap<String, Long> variables) {
+    boolean eval(HashMap<String, QuandaryValue> variables) {
         return doOperation(expr1.eval(variables), operator, expr2.eval(variables));
     }
 

@@ -17,7 +17,7 @@ public class ConstExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, Long> variables) {
+    Object eval(HashMap<String, QuandaryValue> variables) {
         return value;
     }
 }

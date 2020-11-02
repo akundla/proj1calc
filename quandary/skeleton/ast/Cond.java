@@ -8,7 +8,7 @@ public abstract class Cond extends ASTNode {
         super(loc);
     }
 
-    abstract boolean eval(HashMap<String, Long> variables);
+    abstract boolean eval(HashMap<String, QuandaryValue> variables);
 
     /**
      * 0 denotes boolean false, and anything else denotes boolean true.
