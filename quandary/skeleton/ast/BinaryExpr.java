@@ -35,15 +35,21 @@ public class BinaryExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, QuandaryValue> variables) {
-        return doOperation(expr1.eval(variables), operator, expr2.eval(variables));
+    QuandaryValue eval(HashMap<String, QuandaryValue> variables) {
+        return new QuandaryIntValue(
+            doOperation(
+                ((QuandaryIntValue)expr1.eval(variables)).value,
+                operator,
+                ((QuandaryIntValue)expr2.eval(variables)).value
+            )
+        );
     }
 
-    static Object doOperation(Object value1, int operator, Object value2) {
+    static Long doOperation(long value1, int operator, long value2) {
         switch (operator) {
-            case PLUS:  return (long)value1 + (long)value2;
-            case MINUS: return (long)value1 - (long)value2;
-            case MULT: return (long)value1 * (long)value2;
+            case PLUS:  return value1 + value2;
+            case MINUS: return value1 - value2;
+            case MULT: return value1 * value2;
         }
         throw new RuntimeException("Unexpected in BinaryExpr.doOperation");
     }

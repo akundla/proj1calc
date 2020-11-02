@@ -28,7 +28,7 @@ public class FunctionCallExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, QuandaryValue> variables) {
+    QuandaryValue eval(HashMap<String, QuandaryValue> variables) {
         FunctionDefinition func = Program.FunctionMap.get(this.identifier);
         if (func != null) {
             List<QuandaryValue> argVals = new ArrayList<QuandaryValue>();
@@ -40,11 +40,11 @@ public class FunctionCallExpr extends Expr {
             return func.exec(argVals);
         }
         else if (this.identifier.equals(RANDOM_INT_IDENT)) {
-            long n = (long)this.arguments.get(0).eval(variables);
-            return (long)(n * Math.random());
+            // This had better be a QuandaryIntValue (else it is a statically incorrect program)
+            long n = ((QuandaryIntValue)this.arguments.get(0).eval(variables)).value;
+            long randomVal = (long)(n * Math.random());
+            return new QuandaryIntValue(randomVal);
         }
-        else {
-            return null;
-        }
+        throw new RuntimeException("FunctionCallExpr was given an unrecognizable identifier.");
     }
 }

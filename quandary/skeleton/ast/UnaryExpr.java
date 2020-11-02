@@ -29,13 +29,19 @@ public class UnaryExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, QuandaryValue> variables) {
-        return doOperation(operator, expr.eval(variables));
+    QuandaryValue eval(HashMap<String, QuandaryValue> variables) {
+        return new QuandaryIntValue(
+            doOperation(
+                operator,
+                // If this is not a QuandaryIntValue then the program is statically incorrect
+                ((QuandaryIntValue)expr.eval(variables)).value
+            )
+        );
     }
 
-    static Object doOperation(int operator, Object value) {
+    static Long doOperation(int operator, Long value) {
         switch (operator) {
-            case UNARY_NEGATION:  return -(long)value;
+            case UNARY_NEGATION:  return -value;
         }
         throw new RuntimeException("Unexpected in UnaryExpr.doOperation");
     }

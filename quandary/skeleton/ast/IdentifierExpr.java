@@ -17,7 +17,7 @@ public class IdentifierExpr extends Expr {
     }
 
     @Override
-    Object eval(HashMap<String, QuandaryValue> variables) {
+    QuandaryValue eval(HashMap<String, QuandaryValue> variables) {
         return variables.get(this.identifier);
     }
 }
