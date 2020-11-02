@@ -184,6 +184,8 @@ expr ::= INTCONST:c
          {: RESULT = e; :}
       |  IDENT:i
          {: RESULT = new IdentifierExpr(i, loc(ileft, iright)); :}
+      | LPAREN varType:vt RPAREN expr:e
+         {: RESULT = new CastExpr(vt, e, loc(vtleft, vtright)); :}
       ;
 
 funcCallExpr ::= IDENT:i LPAREN exprList:el RPAREN
