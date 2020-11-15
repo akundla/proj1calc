@@ -27,9 +27,11 @@ public class FunctionCallExpr extends Expr {
     public String toString() {
         String s = identifier + "(";
         for (int i = 0; i < this.arguments.size(); i++) {
-            s += this.arguments.get(i) + ", ";
+            s += this.arguments.get(i);
+            if (i < this.arguments.size() - 1) 
+                s += ", ";
         }
-        s += ");";
+        s += ")";
         return s;
     }
 

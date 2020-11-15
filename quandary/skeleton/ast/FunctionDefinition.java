@@ -18,8 +18,10 @@ public class FunctionDefinition extends ASTNode {
 
     public String toString() {
         String s = this.functionIdentifier.identifier + " (";
-        for (VarDecl param : this.formalParameters) {
-            s += param.toString() + ", ";
+        for (int i = 0; i < this.formalParameters.size(); i++) {
+            s += this.formalParameters.get(i);
+            if (i < this.formalParameters.size() - 1) 
+                s += ", ";
         }
         s += ") " + this.statements;
         return s;

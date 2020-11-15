@@ -13,7 +13,7 @@ public class MutFuncCallStatement extends Statement {
 
     @Override
     public String toString() {
-        return this.funcCallExpr.toString();
+        return this.funcCallExpr.toString() + ";";
     }
 
     /**
