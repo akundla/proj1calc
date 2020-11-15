@@ -55,12 +55,16 @@ public class FunctionCallExpr extends Expr {
         }
         else if (this.identifier.equals(LEFT_IDENT)) {
             return FunctionCallExpr.left(
-                (QuandaryRefValue)this.arguments.get(0).eval(variables)
+                FunctionCallExpr.nilChecker(
+                    (QuandaryRefValue)this.arguments.get(0).eval(variables)
+                )
             );
         }
         else if (this.identifier.equals(RIGHT_IDENT)) {
             return FunctionCallExpr.right(
-                (QuandaryRefValue)this.arguments.get(0).eval(variables)
+                FunctionCallExpr.nilChecker(
+                    (QuandaryRefValue)this.arguments.get(0).eval(variables)
+                )
             );
         }
         else if (this.identifier.equals(ISATOM_IDENT)) {
@@ -75,13 +79,17 @@ public class FunctionCallExpr extends Expr {
         }
         else if (this.identifier.equals(SETLEFT_IDENT)) {
             return FunctionCallExpr.setLeft(
-                (QuandaryRefValue)this.arguments.get(0).eval(variables),
+                FunctionCallExpr.nilChecker(
+                    (QuandaryRefValue)this.arguments.get(0).eval(variables)
+                ),
                 this.arguments.get(1).eval(variables)
             );
         }
         else if (this.identifier.equals(SETRIGHT_IDENT)) {
             return FunctionCallExpr.setRight(
-                (QuandaryRefValue)this.arguments.get(0).eval(variables),
+                FunctionCallExpr.nilChecker(
+                    (QuandaryRefValue)this.arguments.get(0).eval(variables)
+                ),
                 this.arguments.get(1).eval(variables)
             );
         }
@@ -96,13 +104,11 @@ public class FunctionCallExpr extends Expr {
 
     // Q left(Ref r) - Returns the left field of the object referenced by r
     private static QuandaryValue left(QuandaryRefValue r) {
-        // If you call left() on a nil ref the program is statically incorrect
         return r.referencedQObject.left;
     }
 
     // Q right(Ref r) - Returns the right field of the object referenced by r
     private static QuandaryValue right(QuandaryRefValue r) {
-        // If you call right() on a nil ref the program is statically incorrect
         return r.referencedQObject.right;
     }
 
@@ -156,5 +162,16 @@ public class FunctionCallExpr extends Expr {
     private static QuandaryIntValue setRight(QuandaryRefValue r, QuandaryValue value) {
         r.referencedQObject.right = value;
         return new QuandaryIntValue(1);
+    }
+
+    // Helper function to detect nil dereferences
+    private static QuandaryRefValue nilChecker(QuandaryRefValue r) {
+        // Should be impossible. 
+        if (r == null)
+            throw new NilDereferenceException("BIG PROBLEM: r itself is nil in left(), right(), setLeft(), or setRight().");
+        // If you call left() on a nil ref the program is dynamically incorrect
+        if (r.referencedQObject == null)
+            throw new NilDereferenceException("Nil dereference error on built-in function left(), right(), setLeft(), or setRight().");
+        return r;
     }
 }

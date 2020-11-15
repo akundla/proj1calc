@@ -5,6 +5,7 @@ import java.util.Random;
 
 import parser.ParserWrapper;
 import ast.DynamicCheckException;
+import ast.NilDereferenceException;
 import ast.Program;
 import ast.StaticCheckException;
 
@@ -118,6 +119,8 @@ public class Interpreter {
             return astRoot.exec(arg);
         } catch (DynamicCheckException d) {
             Interpreter.fatalError(d.getMessage(), EXIT_DYNAMIC_TYPE_ERROR);
+        } catch (NilDereferenceException n) {
+            Interpreter.fatalError(n.getMessage(), EXIT_NIL_REF_ERROR);
         }
 
         // Should be unreachable code
