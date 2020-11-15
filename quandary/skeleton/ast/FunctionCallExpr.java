@@ -154,12 +154,14 @@ public class FunctionCallExpr extends Expr {
 
     // mutable int setLeft(Ref r, Q value) – Sets the left field of the object referenced by r to value, and returns 1
     private static QuandaryIntValue setLeft(QuandaryRefValue r, QuandaryValue value) {
+        FunctionCallExpr.checkTypes(r.referencedQObject.left, value);
         r.referencedQObject.left = value;
         return new QuandaryIntValue(1);
     }
 
     // mutable int setRight(Ref r, Q value) – Sets the right field of the object referenced by r to value, and returns 1
     private static QuandaryIntValue setRight(QuandaryRefValue r, QuandaryValue value) {
+        FunctionCallExpr.checkTypes(r.referencedQObject.right, value);
         r.referencedQObject.right = value;
         return new QuandaryIntValue(1);
     }
@@ -173,5 +175,17 @@ public class FunctionCallExpr extends Expr {
         if (r.referencedQObject == null)
             throw new NilDereferenceException("Nil dereference error on built-in function left(), right(), setLeft(), or setRight().");
         return r;
+    }
+
+    // Enforces rule precluding heap mutation.
+    private static void checkTypes(QuandaryValue field, QuandaryValue newVal) {
+        if (field instanceof QuandaryIntValue) {
+            if (!(newVal instanceof QuandaryIntValue))
+                throw new DynamicCheckException("Cannot assign an int field in the heap to anything other than an int.");
+        }
+        else if (field instanceof QuandaryRefValue){
+            if (!(newVal instanceof QuandaryRefValue))
+                throw new DynamicCheckException("Cannot assign a Ref field in the heap to anything other than a Ref.");
+        }
     }
 }
