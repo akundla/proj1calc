@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.Random;
 
 import parser.ParserWrapper;
+import ast.DynamicCheckException;
 import ast.Program;
+import ast.StaticCheckException;
 
 public class Interpreter {
 
@@ -88,24 +90,43 @@ public class Interpreter {
 
     Object exec(String gcType, long heapBytes, long arg) {
         if (gcType.equals("Explicit")) {
-            throw new RuntimeException("Explicit not implemented");            
+            throw new RuntimeException("Explicit not implemented");
         } else if (gcType.equals("MarkSweep")) {
-            throw new RuntimeException("MarkSweep not implemented");            
+            throw new RuntimeException("MarkSweep not implemented");
         } else if (gcType.equals("RefCount")) {
-            throw new RuntimeException("RefCount not implemented");            
+            throw new RuntimeException("RefCount not implemented");
         } else if (gcType.equals("NoGC")) {
             // Nothing to do
         }
+
         // Print all nodes in tree
-        astRoot.println(System.out);
+        try {
+            astRoot.println(System.out);
+        } catch (Exception e) {
+
+        }
+
         // Statically check everything in the tree
-        //astRoot.staticallyCheck();
-        Object returnValue = astRoot.exec(arg);
-        return returnValue;
+        try {
+            // astRoot.staticallyCheck();
+        } catch (StaticCheckException s) {
+            Interpreter.fatalError(s.getMessage(), EXIT_STATIC_CHECKING_ERROR);
+        }
+
+        // Actually execute the program
+        try {
+            return astRoot.exec(arg);
+        } catch (DynamicCheckException d) {
+            Interpreter.fatalError(d.getMessage(), EXIT_DYNAMIC_TYPE_ERROR);
+        }
+
+        // Should be unreachable code
+        throw new RuntimeException("This exception was supposed to be unreachable. "
+            + "Either main was supposed to return a value, or else a static or dynamic error was supposed to be found.");
     }
 
-	public static void fatalError(String message, int processReturnCode) {
+    public static void fatalError(String message, int processReturnCode) {
         System.out.println(message);
         System.exit(processReturnCode);
-	}
+    }
 }
