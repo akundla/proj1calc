@@ -23,6 +23,13 @@ public class Program extends ASTNode {
         ps.println(this.functionDefs);
     }
 
+    /**
+     * Just statically checks the functionDefinitionList
+     */
+    public void staticallyCheck() {
+        this.functionDefs.staticallyCheck();
+    }
+
     public Object exec(long argument) {
         return this.functionDefs.exec(argument);
     }

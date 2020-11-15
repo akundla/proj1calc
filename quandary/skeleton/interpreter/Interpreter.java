@@ -109,7 +109,7 @@ public class Interpreter {
 
         // Statically check everything in the tree
         try {
-            // astRoot.staticallyCheck();
+            astRoot.staticallyCheck();
         } catch (StaticCheckException s) {
             Interpreter.fatalError(s.getMessage(), EXIT_STATIC_CHECKING_ERROR);
         }

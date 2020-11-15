@@ -6,13 +6,13 @@ import java.util.List;
 
 public class FunctionCallExpr extends Expr {
 
-    private static final String LEFT_IDENT = "left";
-    private static final String RIGHT_IDENT = "right";
-    private static final String RANDOM_INT_IDENT = "randomInt";
-    private static final String ISATOM_IDENT = "isAtom";
-    private static final String ISNIL_IDENT = "isNil";
-    private static final String SETLEFT_IDENT = "setLeft";
-    private static final String SETRIGHT_IDENT = "setRight";
+    public static final String LEFT_IDENT = "left";
+    public static final String RIGHT_IDENT = "right";
+    public static final String RANDOM_INT_IDENT = "randomInt";
+    public static final String ISATOM_IDENT = "isAtom";
+    public static final String ISNIL_IDENT = "isNil";
+    public static final String SETLEFT_IDENT = "setLeft";
+    public static final String SETRIGHT_IDENT = "setRight";
 
     final String identifier;
     final List<Expr> arguments;

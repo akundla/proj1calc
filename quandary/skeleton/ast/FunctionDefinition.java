@@ -27,6 +27,20 @@ public class FunctionDefinition extends ASTNode {
         return s;
     }
 
+    /**
+     * Checks that the function name is not one of the names of a predefined function
+     */
+    public void staticallyCheck() {
+        if (functionIdentifier.identifier == FunctionCallExpr.LEFT_IDENT
+            || functionIdentifier.identifier == FunctionCallExpr.RIGHT_IDENT
+            || functionIdentifier.identifier == FunctionCallExpr.RANDOM_INT_IDENT
+            || functionIdentifier.identifier == FunctionCallExpr.ISATOM_IDENT
+            || functionIdentifier.identifier == FunctionCallExpr.ISNIL_IDENT
+            || functionIdentifier.identifier == FunctionCallExpr.SETLEFT_IDENT
+            || functionIdentifier.identifier == FunctionCallExpr.SETRIGHT_IDENT)
+            throw new StaticCheckException("Function name may not be the same as one of the predefined functions.");
+    }
+
     // Functions must always return a value (hence why all have a return type of int, q, or ref), so this will return a QuandaryValue
     public QuandaryValue exec(List<QuandaryValue> params) {
         HashMap<String, QuandaryValue> localEnv = new HashMap<String, QuandaryValue>();
