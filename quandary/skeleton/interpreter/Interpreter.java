@@ -73,7 +73,6 @@ public class Interpreter {
         } catch (Exception ex) {
             Interpreter.fatalError("Uncaught parsing error: " + ex, Interpreter.EXIT_PARSING_ERROR);
         }
-        //astRoot.println(System.out);
         interpreter = new Interpreter(astRoot);
         Object returnValue = interpreter.exec(gcType, heapBytes, quandaryArg).toString();
         System.out.println("Interpreter returned " + returnValue);
@@ -97,6 +96,10 @@ public class Interpreter {
         } else if (gcType.equals("NoGC")) {
             // Nothing to do
         }
+        // Print all nodes in tree
+        astRoot.println(System.out);
+        // Statically check everything in the tree
+        //astRoot.staticallyCheck();
         Object returnValue = astRoot.exec(arg);
         return returnValue;
     }
