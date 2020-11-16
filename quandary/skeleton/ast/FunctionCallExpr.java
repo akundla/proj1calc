@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ast.VarDecl.VAR_TYPE;
+
 public class FunctionCallExpr extends Expr {
 
     public static final String LEFT_IDENT = "left";
@@ -56,7 +58,46 @@ public class FunctionCallExpr extends Expr {
                 throw new StaticCheckException("Cannot call a mutable function from inside an immutable function.");
             }
         }
-        // TODO: Check every parameter
+
+        // Check every parameter
+        if (func != null) {
+            if (func.formalParameters.size() != this.arguments.size())
+                throw new StaticCheckException("Function Call expression does not have the same number of arguments as the function being called has formal parameters.");
+            else {
+                for (int i = 0; i < this.arguments.size(); i++) {
+                    if (func.formalParameters.get(i).typeCode == VAR_TYPE.INT && Expr.tryInferType(this.arguments.get(i), declaredVars) != VAR_TYPE.INT
+                        || func.formalParameters.get(i).typeCode == VAR_TYPE.REF && Expr.tryInferType(this.arguments.get(i), declaredVars) != VAR_TYPE.REF)
+                        throw new StaticCheckException("Type of argument to function did not match type of formal parameter.");
+                }
+            }
+        }
+        else if (FunctionCallExpr.SETLEFT_IDENT.equals(this.identifier) || FunctionCallExpr.SETRIGHT_IDENT.equals(this.identifier)) {
+            if (this.arguments.size() != 2)
+                throw new StaticCheckException("setLeft() or setRight() was called with the wrong number of parameters.");
+            else {
+                if (Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.REF)
+                    throw new StaticCheckException("First argument to setLeft() or setRight() was not a ref.");
+            }
+        }
+        // This must be one of the other predefined functions, all of which take one parameter
+        else {
+            if (this.arguments.size() != 1)
+                throw new StaticCheckException("Predefined function called with the wrong number of parameters.");
+            else {
+                if (FunctionCallExpr.ISATOM_IDENT.equals(this.identifier) || FunctionCallExpr.ISNIL_IDENT.equals(this.identifier)) {
+                    // Since the first and only param to these 2 is a Q, anything will do
+                }
+                else if (FunctionCallExpr.RANDOM_INT_IDENT.equals(this.identifier) && Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.INT )
+                    throw new StaticCheckException("First argument to randomInt() was not an int.");
+                else {
+                    // Must be left() or right()
+                    if (Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.REF)
+                        throw new StaticCheckException("First argument to left() or right() was not a ref.");
+                }
+
+            }
+        }
+
     }
 
     /**
