@@ -33,13 +33,7 @@ public class FunctionDefinition extends ASTNode {
      */
     public void staticallyCheck() {
         // Check everything there is to check about the funciton identifier
-        if (functionIdentifier.identifier.equals(FunctionCallExpr.LEFT_IDENT)
-            || functionIdentifier.identifier.equals(FunctionCallExpr.RIGHT_IDENT)
-            || functionIdentifier.identifier.equals(FunctionCallExpr.RANDOM_INT_IDENT)
-            || functionIdentifier.identifier.equals(FunctionCallExpr.ISATOM_IDENT)
-            || functionIdentifier.identifier.equals(FunctionCallExpr.ISNIL_IDENT)
-            || functionIdentifier.identifier.equals(FunctionCallExpr.SETLEFT_IDENT)
-            || functionIdentifier.identifier.equals(FunctionCallExpr.SETRIGHT_IDENT) )
+        if (FunctionCallExpr.isPredefFunc(this.functionIdentifier.identifier))
             throw new StaticCheckException("Function name may not be the same as one of the predefined functions.");
         
         // Perform normal static checking

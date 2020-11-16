@@ -37,7 +37,31 @@ public class FunctionCallExpr extends Expr {
 
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars) {
+        // Find the function in the map
+        FunctionDefinition func = Program.FunctionMap.get(this.identifier);
+        // If it's there great, but if not, check if it's a predef
+        if (func == null && !FunctionCallExpr.isPredefFunc(this.identifier))
+            // If it's not a predef either, then it doesn't exist. Throw static error.
+            throw new StaticCheckException(this.identifier + " is not a defined or predefined function.");
         // TODO: Check every parameter
+    }
+
+    /**
+     * Returns if the identifier given matches one of the predefined functions
+     * @param identifier
+     * @return
+     */
+    public static boolean isPredefFunc(String identifier) {
+        if (identifier.equals(FunctionCallExpr.LEFT_IDENT)
+            || identifier.equals(FunctionCallExpr.RIGHT_IDENT)
+            || identifier.equals(FunctionCallExpr.RANDOM_INT_IDENT)
+            || identifier.equals(FunctionCallExpr.ISATOM_IDENT)
+            || identifier.equals(FunctionCallExpr.ISNIL_IDENT)
+            || identifier.equals(FunctionCallExpr.SETLEFT_IDENT)
+            || identifier.equals(FunctionCallExpr.SETRIGHT_IDENT) )
+            return true;
+        else
+            return false;
     }
 
     @Override
