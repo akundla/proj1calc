@@ -20,7 +20,7 @@ public class AssignmentStatement extends Statement {
 
     @Override
     QuandaryValue exec(HashMap<String, QuandaryValue> variables) {
-        variables.put(this.ident, (QuandaryValue)this.rValue.eval(variables));
+        variables.put(this.ident, this.rValue.eval(variables));
         return null;
     }
 }
