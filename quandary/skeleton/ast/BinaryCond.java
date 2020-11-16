@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class BinaryCond extends Cond {
 
@@ -30,6 +31,12 @@ public class BinaryCond extends Cond {
             case BOOL_OR: s = "||"; break;
         }
         return expr1 + " " + s + " " + expr2;
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        this.expr1.staticallyCheck(declaredVars, functionDecl);
+        this.expr2.staticallyCheck(declaredVars, functionDecl);
     }
 
     @Override

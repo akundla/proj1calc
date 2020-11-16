@@ -21,6 +21,7 @@ public class IfStatement extends Statement {
 
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        this.condition.staticallyCheck(declaredVars, functionDecl);
         this.statement.staticallyCheck(declaredVars, functionDecl);
         // TODO: Finish checking this
     }

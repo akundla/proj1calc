@@ -1,12 +1,15 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class Cond extends ASTNode {
     
     Cond(Location loc) {
         super(loc);
     }
+
+    abstract void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl);
 
     abstract boolean eval(HashMap<String, QuandaryValue> variables);
 

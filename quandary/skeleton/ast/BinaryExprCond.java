@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class BinaryExprCond extends Cond {
 
@@ -38,6 +41,15 @@ public class BinaryExprCond extends Cond {
             case NON_EQUALITY_CHECK: s = "!="; break;
         }
         return expr1 + " " + s + " " + expr2;
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        this.expr1.staticallyCheck(declaredVars, functionDecl);
+        this.expr2.staticallyCheck(declaredVars, functionDecl);
+
+        if (Expr.tryInferType(this.expr1, declaredVars) != VAR_TYPE.INT || Expr.tryInferType(this.expr2, declaredVars) != VAR_TYPE.INT)
+            throw new StaticCheckException("One or both of the experssions in Binary Expression condition was not an int.");
     }
 
     @Override

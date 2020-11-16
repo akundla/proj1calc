@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class UnaryCond extends Cond {
 
@@ -26,6 +27,11 @@ public class UnaryCond extends Cond {
             case BOOL_NOT:  s = "!"; break;
         }
         return s + " " + cond;
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        this.cond.staticallyCheck(declaredVars, functionDecl);
     }
 
     @Override
