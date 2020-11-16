@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class UnaryExpr extends Expr {
 
@@ -26,6 +29,13 @@ public class UnaryExpr extends Expr {
             case UNARY_NEGATION:  s = "-"; break;
         }
         return s + " " + expr;
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars) {
+        this.expr.staticallyCheck(declaredVars);        
+        if (Expr.tryInferType(this.expr, declaredVars) != VAR_TYPE.INT)
+            throw new StaticCheckException("Tried to use unary negation on something that is not explicity an int.");
     }
 
     @Override

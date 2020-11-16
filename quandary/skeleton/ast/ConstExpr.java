@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class ConstExpr extends Expr {
     final Object value;
@@ -21,6 +22,11 @@ public class ConstExpr extends Expr {
             return value.toString();
         else
             return "nil";
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars) {
+        // It's literally just a number or nil. There's nothing to check here.
     }
 
     @Override

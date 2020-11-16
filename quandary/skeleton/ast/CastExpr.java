@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class CastExpr extends Expr {
 
@@ -16,6 +19,16 @@ public class CastExpr extends Expr {
     @Override
     public String toString() {
         return "(" + this.varType.name() + ")" + this.expr;
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars) {
+        this.expr.staticallyCheck(declaredVars);
+        VAR_TYPE exprType = Expr.tryInferType(this.expr, declaredVars);
+        if (exprType == VAR_TYPE.INT && this.varType == VAR_TYPE.REF)
+            throw new StaticCheckException("Cannot cast an int to a ref.");
+        else if (exprType == VAR_TYPE.REF && this.varType == VAR_TYPE.INT)
+            throw new StaticCheckException("Cannot cast an Ref to an int.");
     }
 
     @Override

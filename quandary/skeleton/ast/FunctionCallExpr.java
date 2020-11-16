@@ -36,6 +36,11 @@ public class FunctionCallExpr extends Expr {
     }
 
     @Override
+    public void staticallyCheck(List<VarDecl> declaredVars) {
+        // TODO: later
+    }
+
+    @Override
     QuandaryValue eval(HashMap<String, QuandaryValue> variables) {
         FunctionDefinition func = Program.FunctionMap.get(this.identifier);
         if (func != null) {
