@@ -31,6 +31,7 @@ public class FunctionDefinition extends ASTNode {
      * Checks that the function name is not one of the names of a predefined function
      */
     public void staticallyCheck() {
+        // Check everything there is to check about the funciton identifier
         if (functionIdentifier.identifier == FunctionCallExpr.LEFT_IDENT
             || functionIdentifier.identifier == FunctionCallExpr.RIGHT_IDENT
             || functionIdentifier.identifier == FunctionCallExpr.RANDOM_INT_IDENT
@@ -39,6 +40,10 @@ public class FunctionDefinition extends ASTNode {
             || functionIdentifier.identifier == FunctionCallExpr.SETLEFT_IDENT
             || functionIdentifier.identifier == FunctionCallExpr.SETRIGHT_IDENT)
             throw new StaticCheckException("Function name may not be the same as one of the predefined functions.");
+        
+        // Check that the function ends on a return statement
+        this.statements.staticallyCheck();
+        StatementList.checkRetForMethodBody(this.statements);
     }
 
     // Functions must always return a value (hence why all have a return type of int, q, or ref), so this will return a QuandaryValue

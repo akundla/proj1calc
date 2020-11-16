@@ -4,9 +4,11 @@ import java.util.HashMap;
 
 public abstract class Statement extends ASTNode {
     
-    Statement(Location loc) {
+    public Statement(Location loc) {
         super(loc);
     }
+
+    abstract void staticallyCheck();
 
     /**
      * Only return statements return a value. However, statementLists may contain return statements, so they may return a value as well. 

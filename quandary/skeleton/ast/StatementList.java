@@ -22,6 +22,29 @@ public class StatementList extends Statement {
         return s;
     }
 
+    /**
+     * Simply checks every statement
+     */
+    @Override
+    public void staticallyCheck() {
+        for (int i = 0; i < this.statements.size(); i++) {
+            this.statements.get(i).staticallyCheck();
+        }
+    }
+
+    /**
+     * Must be called from Function definition statically check
+     * AND requires that staticallyCheck already be called
+     */
+    public static void checkRetForMethodBody(StatementList sl) {
+        if (sl.statements == null) 
+            throw new StaticCheckException("Method body must not be null.");
+        if (sl.statements.size() < 1)
+            throw new StaticCheckException("Method body must have at least one statement.");
+        if (!(sl.statements.get(sl.statements.size() - 1) instanceof ReturnStatement))
+            throw new StaticCheckException("Last statement of function body is not a return statement.");
+    }
+
     @Override
     QuandaryValue exec(HashMap<String, QuandaryValue> variables) {
         for (int i = 0; i < this.statements.size(); i++) {
