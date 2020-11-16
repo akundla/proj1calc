@@ -3,6 +3,8 @@ package ast;
 import java.util.HashMap;
 import java.util.List;
 
+import ast.VarDecl.VAR_TYPE;
+
 public class VarDeclareStatement extends Statement {
     
     final VarDecl varDecl;
@@ -19,7 +21,8 @@ public class VarDeclareStatement extends Statement {
         return this.varDecl + " = " + this.rValue;
     }
 
-    public void staticallyCheck(List<VarDecl> declaredVars) {
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
         for (int i = 0; i < declaredVars.size(); i++){
             if (this.varDecl.identifier == declaredVars.get(i).identifier)
                 throw new StaticCheckException("Identifier " + this.varDecl.identifier + " has already been used.");

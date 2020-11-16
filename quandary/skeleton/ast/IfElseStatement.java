@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class IfElseStatement extends Statement {
     
@@ -20,6 +23,13 @@ public class IfElseStatement extends Statement {
         return "if (" + this.condition.toString() + ") \n\r\t" + this.statement1.toString()
             + "\n\r\t" + "else"
             + "\n\r\t" + this.elseStatement.toString();
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+        this.statement1.staticallyCheck(declaredVars, funcRetType);
+        this.elseStatement.staticallyCheck(declaredVars, funcRetType);
+        // TODO: Finish checking this later
     }
 
     @Override

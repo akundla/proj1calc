@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class AssignmentStatement extends Statement {
     
@@ -16,6 +19,12 @@ public class AssignmentStatement extends Statement {
     @Override
     public String toString() {
         return this.ident + " = " + this.rValue;
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+        this.rValue.staticallyCheck(declaredVars);
+        // TODO: Finish checking this
     }
 
     @Override

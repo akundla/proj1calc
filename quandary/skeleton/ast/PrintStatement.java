@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class PrintStatement extends Statement {
 
@@ -14,6 +17,12 @@ public class PrintStatement extends Statement {
     @Override
     public String toString() {
         return "print(" + this.expr.toString() + ");";
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+        this.expr.staticallyCheck(declaredVars);
+        // TODO: Finish checking 
     }
 
     @Override

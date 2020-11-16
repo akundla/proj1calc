@@ -1,5 +1,6 @@
 package ast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,8 +42,14 @@ public class FunctionDefinition extends ASTNode {
             || functionIdentifier.identifier == FunctionCallExpr.SETRIGHT_IDENT)
             throw new StaticCheckException("Function name may not be the same as one of the predefined functions.");
         
+        // Perform normal static checking
+        this.statements.staticallyCheck(
+            // Copy the formal parameter list because it will not be restored.
+            new ArrayList<VarDecl>(this.formalParameters),
+            this.functionIdentifier.typeCode);
+
         // Check that the function ends on a return statement
-        this.statements.staticallyCheckForMethodBody(this.formalParameters, this.functionIdentifier);
+        StatementList.checkRetForMethodBody(this.statements);
     }
 
     // Functions must always return a value (hence why all have a return type of int, q, or ref), so this will return a QuandaryValue

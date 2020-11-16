@@ -1,12 +1,17 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public abstract class Statement extends ASTNode {
     
     public Statement(Location loc) {
         super(loc);
     }
+
+    abstract void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType);
 
     // Each statement needs a staticallyCheck method too, but those take all different parameters
 

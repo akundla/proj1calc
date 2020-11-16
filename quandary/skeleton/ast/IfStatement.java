@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class IfStatement extends Statement {
     
@@ -16,6 +19,12 @@ public class IfStatement extends Statement {
     @Override
     public String toString() {
         return "if (" + this.condition.toString() + ") \n\r\t" + this.statement.toString();
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+        this.statement.staticallyCheck(declaredVars, funcRetType);
+        // TODO: Finish checking this
     }
 
     @Override

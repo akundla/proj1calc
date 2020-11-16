@@ -3,6 +3,8 @@ package ast;
 import java.util.HashMap;
 import java.util.List;
 
+import ast.VarDecl.VAR_TYPE;
+
 public class StatementList extends Statement {
 
     final List<Statement> statements;
@@ -25,15 +27,10 @@ public class StatementList extends Statement {
     /**
      * Simply checks every statement
      */
-    public void staticallyCheckForMethodBody(List<VarDecl> declaredVars, VarDecl funcIdent) {
-        StatementList.checkRetForMethodBody(this);
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
         for (int i = 0; i < this.statements.size(); i++) {
-            Statement temp = this.statements.get(i);
-            if (temp instanceof VarDeclareStatement)
-                // Will add variable to declaredVars
-                ((VarDeclareStatement)temp).staticallyCheck(declaredVars);
-            else if (temp instanceof ReturnStatement)
-                ((ReturnStatement)temp).staticallyCheck(declaredVars, funcIdent.typeCode);
+            this.statements.get(i).staticallyCheck(declaredVars, funcRetType);
         }
     }
 
@@ -41,7 +38,7 @@ public class StatementList extends Statement {
      * Must be called from Function definition statically check
      * AND requires that staticallyCheck already be called
      */
-    private static void checkRetForMethodBody(StatementList sl) {
+    public static void checkRetForMethodBody(StatementList sl) {
         if (sl.statements == null) 
             throw new StaticCheckException("Method body must not be null.");
         if (sl.statements.size() < 1)

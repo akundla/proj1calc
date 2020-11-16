@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class MutFuncCallStatement extends Statement {
     
@@ -14,6 +17,12 @@ public class MutFuncCallStatement extends Statement {
     @Override
     public String toString() {
         return this.funcCallExpr.toString() + ";";
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+        this.funcCallExpr.staticallyCheck(declaredVars);
+        // TODO: Finish checking this
     }
 
     /**
