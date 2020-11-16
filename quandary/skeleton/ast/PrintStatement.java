@@ -3,8 +3,6 @@ package ast;
 import java.util.HashMap;
 import java.util.List;
 
-import ast.VarDecl.VAR_TYPE;
-
 public class PrintStatement extends Statement {
 
     final Expr expr;
@@ -20,7 +18,7 @@ public class PrintStatement extends Statement {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
         this.expr.staticallyCheck(declaredVars);
         // TODO: Finish checking 
     }

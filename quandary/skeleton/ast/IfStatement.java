@@ -3,8 +3,6 @@ package ast;
 import java.util.HashMap;
 import java.util.List;
 
-import ast.VarDecl.VAR_TYPE;
-
 public class IfStatement extends Statement {
     
     final Cond condition;
@@ -22,8 +20,8 @@ public class IfStatement extends Statement {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
-        this.statement.staticallyCheck(declaredVars, funcRetType);
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        this.statement.staticallyCheck(declaredVars, functionDecl);
         // TODO: Finish checking this
     }
 

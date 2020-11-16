@@ -3,8 +3,6 @@ package ast;
 import java.util.HashMap;
 import java.util.List;
 
-import ast.VarDecl.VAR_TYPE;
-
 public class MutFuncCallStatement extends Statement {
     
     final FunctionCallExpr funcCallExpr;
@@ -19,10 +17,35 @@ public class MutFuncCallStatement extends Statement {
         return this.funcCallExpr.toString() + ";";
     }
 
+    /**
+     * For this statement to be statically correct:
+     * 1. The function it's in has to be mutable, BECAUSE
+     * 2. The function being called also has to be mutable (otherwise this statement would be pointless).
+     */
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        if (!functionDecl.isMutable)
+            throw new StaticCheckException("Cannot even attempt to call any mutable functions from a non-mutable function.");
+
         this.funcCallExpr.staticallyCheck(declaredVars);
-        // TODO: Finish checking this
+
+        // If we made it this far then the function does actually exist
+        FunctionDefinition func = Program.FunctionMap.get(this.funcCallExpr.identifier);
+        if (func != null) {
+            if (!func.functionIdentifier.isMutable)
+                throw new StaticCheckException("Cannot call non-mutable function in a Function Call Statement.");
+        }
+        else if (FunctionCallExpr.isPredefFunc(this.funcCallExpr.identifier) 
+            && !(
+                FunctionCallExpr.SETLEFT_IDENT.equals(this.funcCallExpr.identifier)
+                ||
+                FunctionCallExpr.SETRIGHT_IDENT.equals(this.funcCallExpr.identifier)
+                )
+            ) {
+            throw new StaticCheckException("Cannot call non-mutable function in a Function Call Statement (even a predefined one).");
+        }
+        else
+            throw new StaticCheckException("Function called in Mutable function call statement could not be found. something went wrong in static checking (error should have been caught earlier).");
     }
 
     /**

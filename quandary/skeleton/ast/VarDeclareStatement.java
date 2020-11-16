@@ -3,8 +3,6 @@ package ast;
 import java.util.HashMap;
 import java.util.List;
 
-import ast.VarDecl.VAR_TYPE;
-
 public class VarDeclareStatement extends Statement {
     
     final VarDecl varDecl;
@@ -22,7 +20,7 @@ public class VarDeclareStatement extends Statement {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
         this.rValue.staticallyCheck(declaredVars);
 
         // Start by checking that var is not already declared

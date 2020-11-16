@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ast.VarDecl.VAR_TYPE;
-
 public class StatementList extends Statement {
 
     final List<Statement> statements;
@@ -29,12 +27,12 @@ public class StatementList extends Statement {
      * Simply checks every statement
      */
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
         // Make a copy so that the original list has no new vars added to it.
         List<VarDecl> allVars = new ArrayList<VarDecl>(declaredVars);
         // Variables are going to be added to the declaredVars as you go
         for (int i = 0; i < this.statements.size(); i++) {
-            this.statements.get(i).staticallyCheck(allVars, funcRetType);
+            this.statements.get(i).staticallyCheck(allVars, functionDecl);
         }
     }
 

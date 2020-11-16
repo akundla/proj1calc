@@ -23,18 +23,18 @@ public class ReturnStatement extends Statement {
      * Ensures that the expression returned here is going to be the same type as the return type of the method.
      */
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
 
         this.expr.staticallyCheck(declaredVars);
 
         VAR_TYPE exprType = Expr.tryInferType(this.expr, declaredVars);
 
-        if (funcRetType == VAR_TYPE.Q) {
+        if (functionDecl.typeCode == VAR_TYPE.Q) {
             // Anything goes
         }
-        else if (funcRetType == VAR_TYPE.INT && exprType != VAR_TYPE.INT)
+        else if (functionDecl.typeCode == VAR_TYPE.INT && exprType != VAR_TYPE.INT)
             throw new StaticCheckException("Function with return type int has return statement to return something that is not an int.");
-        else if (funcRetType == VAR_TYPE.REF && exprType != VAR_TYPE.REF)
+        else if (functionDecl.typeCode == VAR_TYPE.REF && exprType != VAR_TYPE.REF)
             throw new StaticCheckException("Function with return type Ref has return statement to return something that is not a Ref.");
     }
 

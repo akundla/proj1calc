@@ -3,8 +3,6 @@ package ast;
 import java.util.HashMap;
 import java.util.List;
 
-import ast.VarDecl.VAR_TYPE;
-
 public class IfElseStatement extends Statement {
     
     final Cond condition;
@@ -26,9 +24,9 @@ public class IfElseStatement extends Statement {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
-        this.statement1.staticallyCheck(declaredVars, funcRetType);
-        this.elseStatement.staticallyCheck(declaredVars, funcRetType);
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        this.statement1.staticallyCheck(declaredVars, functionDecl);
+        this.elseStatement.staticallyCheck(declaredVars, functionDecl);
         // TODO: Finish checking this later
     }
 

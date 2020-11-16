@@ -22,7 +22,7 @@ public class AssignmentStatement extends Statement {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
         this.rValue.staticallyCheck(declaredVars);
 
         // Start by checking that var actually exists

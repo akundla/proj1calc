@@ -40,7 +40,7 @@ public class FunctionDefinition extends ASTNode {
         this.statements.staticallyCheck(
             // Copy the formal parameter list because it will not be restored.
             new ArrayList<VarDecl>(this.formalParameters),
-            this.functionIdentifier.typeCode);
+            this.functionIdentifier);
 
         // Check that the function ends on a return statement
         StatementList.checkRetForMethodBody(this.statements);
