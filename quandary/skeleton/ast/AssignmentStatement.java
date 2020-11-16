@@ -30,8 +30,12 @@ public class AssignmentStatement extends Statement {
         if (var == null)
             throw new StaticCheckException("The variable " + ident + " has not been declared.");
         // Now check that what you're assigning it to is of an acceptable type
-        else
-            AssignmentStatement.staticallyCheckAssignment(var, Expr.tryInferType(this.rValue, declaredVars));
+        else {
+            if (var.isMutable)
+                AssignmentStatement.staticallyCheckAssignment(var, Expr.tryInferType(this.rValue, declaredVars));
+            else
+                throw new StaticCheckException("Cannot reassign value to immutable variable " + var.identifier + ".");
+        }
     }
 
     /**
