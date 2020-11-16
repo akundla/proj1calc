@@ -5,6 +5,7 @@ int main(int arg) {
 
 mutable int print1776() {
     print(1776);
+    return 0;
 }
 
 int fib(int x) {
