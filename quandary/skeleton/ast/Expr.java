@@ -37,7 +37,7 @@ public abstract class Expr extends ASTNode {
             if (funcDef != null)
                 return funcDef.functionIdentifier.typeCode;
             else
-                return VAR_TYPE.Q;
+                throw new StaticCheckException("Something went wrong in static checking, the identifier for a nonexistent function shouldn't've made it this far.");
         }
         // If its a constant expression, its either an int or nil
         else if (expr instanceof ConstExpr) {
