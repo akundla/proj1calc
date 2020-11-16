@@ -44,8 +44,6 @@ public class MutFuncCallStatement extends Statement {
             ) {
             throw new StaticCheckException("Cannot call non-mutable function in a Function Call Statement (even a predefined one).");
         }
-        else
-            throw new StaticCheckException("Function called in Mutable function call statement could not be found. something went wrong in static checking (error should have been caught earlier).");
     }
 
     /**

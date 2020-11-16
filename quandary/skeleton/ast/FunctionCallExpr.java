@@ -45,9 +45,12 @@ public class FunctionCallExpr extends Expr {
             throw new StaticCheckException(this.identifier + " is not a defined or predefined function.");
         // If function decl is mutable then we can call whatever we want but if not we can only call immtable functions
         else if (!functionDecl.isMutable) {
-            if (func == null && FunctionCallExpr.isPredefFunc(this.identifier)
-                && (FunctionCallExpr.SETLEFT_IDENT.equals(this.identifier) || FunctionCallExpr.SETRIGHT_IDENT.equals(this.identifier))) {
-                throw new StaticCheckException("Cannot call a mutable function from inside an immutable function.");
+            if (func == null) {
+                if (FunctionCallExpr.isPredefFunc(this.identifier)) {
+                    if (FunctionCallExpr.SETLEFT_IDENT.equals(this.identifier) || FunctionCallExpr.SETRIGHT_IDENT.equals(this.identifier)) {
+                        throw new StaticCheckException("Cannot call a mutable function from inside an immutable function.");
+                    }
+                }
             }
             else if (func.functionIdentifier.isMutable) {
                 throw new StaticCheckException("Cannot call a mutable function from inside an immutable function.");
