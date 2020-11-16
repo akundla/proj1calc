@@ -39,9 +39,9 @@ public class BinaryExpr extends Expr {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars) {
-        this.expr1.staticallyCheck(declaredVars);
-        this.expr2.staticallyCheck(declaredVars);
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
+        this.expr1.staticallyCheck(declaredVars, functionDecl);
+        this.expr2.staticallyCheck(declaredVars, functionDecl);
 
         if (
             (this.op == OPERATOR.PLUS || this.op == OPERATOR.MINUS || this.op == OPERATOR.MULT)

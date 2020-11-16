@@ -19,7 +19,7 @@ public class PrintStatement extends Statement {
 
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
-        this.expr.staticallyCheck(declaredVars);
+        this.expr.staticallyCheck(declaredVars, functionDecl);
         // TODO: Finish checking 
     }
 

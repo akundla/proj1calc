@@ -23,7 +23,7 @@ public class AssignmentStatement extends Statement {
 
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
-        this.rValue.staticallyCheck(declaredVars);
+        this.rValue.staticallyCheck(declaredVars, functionDecl);
 
         // Start by checking that var actually exists
         VarDecl var = VarDecl.getVarDeclFromIdent(declaredVars, this.ident);

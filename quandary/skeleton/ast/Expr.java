@@ -12,7 +12,7 @@ public abstract class Expr extends ASTNode {
         super(loc);
     }
 
-    abstract void staticallyCheck(List<VarDecl> declaredVars);
+    abstract void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl);
 
     abstract QuandaryValue eval(HashMap<String, QuandaryValue> variables);
 

@@ -25,7 +25,7 @@ public class ReturnStatement extends Statement {
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
 
-        this.expr.staticallyCheck(declaredVars);
+        this.expr.staticallyCheck(declaredVars, functionDecl);
 
         VAR_TYPE exprType = Expr.tryInferType(this.expr, declaredVars);
 

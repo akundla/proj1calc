@@ -27,7 +27,7 @@ public class MutFuncCallStatement extends Statement {
         if (!functionDecl.isMutable)
             throw new StaticCheckException("Cannot even attempt to call any mutable functions from a non-mutable function.");
 
-        this.funcCallExpr.staticallyCheck(declaredVars);
+        this.funcCallExpr.staticallyCheck(declaredVars, functionDecl);
 
         // If we made it this far then the function does actually exist
         FunctionDefinition func = Program.FunctionMap.get(this.funcCallExpr.identifier);

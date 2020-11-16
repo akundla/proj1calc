@@ -22,8 +22,8 @@ public class CastExpr extends Expr {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars) {
-        this.expr.staticallyCheck(declaredVars);
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl funcDecl) {
+        this.expr.staticallyCheck(declaredVars, funcDecl);
         VAR_TYPE exprType = Expr.tryInferType(this.expr, declaredVars);
         if (exprType == VAR_TYPE.INT && this.varType == VAR_TYPE.REF)
             throw new StaticCheckException("Cannot cast an int to a ref.");

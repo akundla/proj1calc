@@ -21,7 +21,7 @@ public class VarDeclareStatement extends Statement {
 
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
-        this.rValue.staticallyCheck(declaredVars);
+        this.rValue.staticallyCheck(declaredVars, functionDecl);
 
         // Start by checking that var is not already declared
         VarDecl shouldBeNullVar = VarDecl.getVarDeclFromIdent(declaredVars, this.varDecl.identifier);

@@ -25,7 +25,7 @@ public class ConstExpr extends Expr {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl funcDecl) {
         // It's literally just a number or nil. There's nothing to check here.
     }
 

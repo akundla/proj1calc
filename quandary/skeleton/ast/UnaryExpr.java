@@ -32,8 +32,8 @@ public class UnaryExpr extends Expr {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars) {
-        this.expr.staticallyCheck(declaredVars);        
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl funcDecl) {
+        this.expr.staticallyCheck(declaredVars, funcDecl);        
         if (Expr.tryInferType(this.expr, declaredVars) != VAR_TYPE.INT)
             throw new StaticCheckException("Tried to use unary negation on something that is not explicity an int.");
     }

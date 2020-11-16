@@ -18,7 +18,7 @@ public class IdentifierExpr extends Expr {
     }
 
     @Override
-    public void staticallyCheck(List<VarDecl> declaredVars) {
+    public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
         /**
          * Must check that the identifier references a variable that actually exists
          * (note that identifiers in variable declaration statements are NOT
