@@ -20,9 +20,12 @@ public class IdentifierExpr extends Expr {
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars) {
         /**
-         * Nothing to check here. Vars can either be declared or accessed but never both. Which one depends on whether it is already declared. 
-         * One is relevant for declaration and the other for assignment. Thus, what you check about an identifier depends on how it is used.
+         * Must check that the identifier references a variable that actually exists
+         * (note that identifiers in variable declaration statements are NOT
+         * identifierExprs, nor are identifiers in AssignmentStatements)
          */
+        if (VarDecl.getVarDeclFromIdent(declaredVars, this.identifier) == null)
+            throw new StaticCheckException(this.identifier + " was used in an expression but it has not been declared.");
     }
 
     @Override

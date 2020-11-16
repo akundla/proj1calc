@@ -23,16 +23,18 @@ public class VarDeclareStatement extends Statement {
 
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars, VAR_TYPE funcRetType) {
-
-        // One-time pass through the declared variables to ensure that the identifier is not already used
-        for (int i = 0; i < declaredVars.size(); i++){
-            if (this.varDecl.identifier == declaredVars.get(i).identifier)
-                throw new StaticCheckException("Identifier " + this.varDecl.identifier + " has already been used.");
-        }
-        // Add it to the identifiers so it can be seen and not redeclared
-        declaredVars.add(this.varDecl);
-
         this.rValue.staticallyCheck(declaredVars);
+
+        // Start by checking that var is not already declared
+        VarDecl shouldBeNullVar = VarDecl.getVarDeclFromIdent(declaredVars, this.varDecl.identifier);
+        if (shouldBeNullVar != null)
+            throw new StaticCheckException("The variable " + this.varDecl.identifier + " has already been declared.");
+        // Now check that what you're assigning it to is of an acceptable type
+        else {
+            // Add it to the identifiers so it can be seen and not redeclared
+            declaredVars.add(this.varDecl);
+            AssignmentStatement.staticallyCheckAssignment(this.varDecl, Expr.tryInferType(this.rValue, declaredVars));
+        }
     }
 
     @Override
