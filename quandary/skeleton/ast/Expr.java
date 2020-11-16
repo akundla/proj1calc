@@ -25,7 +25,6 @@ public abstract class Expr extends ASTNode {
     public static VAR_TYPE tryInferType(Expr expr, List<VarDecl> declaredVars) {
         // If its an identifier, make sure the the static type of that var is correct
         if (expr instanceof IdentifierExpr) {
-            System.out.println(expr);
             return VarDecl.getVarDeclFromIdent(declaredVars, ((IdentifierExpr)expr).identifier).typeCode;
         }
         // If its a cast, make sure that the cast is to the correct type

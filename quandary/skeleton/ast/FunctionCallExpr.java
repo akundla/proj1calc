@@ -37,7 +37,7 @@ public class FunctionCallExpr extends Expr {
 
     @Override
     public void staticallyCheck(List<VarDecl> declaredVars) {
-        // TODO: later
+        // TODO: Check every parameter
     }
 
     @Override
