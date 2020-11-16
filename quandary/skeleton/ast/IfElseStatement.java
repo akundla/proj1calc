@@ -28,7 +28,6 @@ public class IfElseStatement extends Statement {
         this.condition.staticallyCheck(declaredVars, functionDecl);
         this.statement1.staticallyCheck(declaredVars, functionDecl);
         this.elseStatement.staticallyCheck(declaredVars, functionDecl);
-        // TODO: Finish checking this later
     }
 
     @Override

@@ -23,7 +23,6 @@ public class WhileLoopStatement extends Statement {
     public void staticallyCheck(List<VarDecl> declaredVars, VarDecl functionDecl) {
         this.condition.staticallyCheck(declaredVars, functionDecl);
         this.statement.staticallyCheck(declaredVars, functionDecl);
-        // TODO: Finish checking
     }
 
     @Override
