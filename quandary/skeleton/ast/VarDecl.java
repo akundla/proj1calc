@@ -38,6 +38,12 @@ public class VarDecl {
         return s + " " + this.identifier;
     }
 
+    /**
+     * Return the VarDecl if the var is declared, and null if not
+     * @param declaredVars
+     * @param ident
+     * @return
+     */
     public static VarDecl getVarDeclFromIdent(List<VarDecl> declaredVars, String ident) {
         for (int i = 0; i < declaredVars.size(); i++) {
             VarDecl temp = declaredVars.get(i);
@@ -45,6 +51,6 @@ public class VarDecl {
                 return temp;
             }
         }
-        throw new StaticCheckException("The variable " + ident + " has not been declared.");
+        return null;
     }
 }
