@@ -102,7 +102,7 @@ public class Interpreter {
 
         // Print all nodes in tree
         try {
-            astRoot.println(System.out);
+            //astRoot.println(System.out);
         } catch (Exception e) {
 
         }
