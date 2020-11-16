@@ -87,9 +87,11 @@ public class FunctionCallExpr extends Expr {
                 if (FunctionCallExpr.ISATOM_IDENT.equals(this.identifier) || FunctionCallExpr.ISNIL_IDENT.equals(this.identifier)) {
                     // Since the first and only param to these 2 is a Q, anything will do
                 }
-                else if (FunctionCallExpr.RANDOM_INT_IDENT.equals(this.identifier) && Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.INT )
-                    throw new StaticCheckException("First argument to randomInt() was not an int.");
-                else {
+                else if (FunctionCallExpr.RANDOM_INT_IDENT.equals(this.identifier)) {
+                    if (Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.INT)
+                        throw new StaticCheckException("First argument to randomInt() was not an int.");
+                }
+                else if (FunctionCallExpr.LEFT_IDENT.equals(this.identifier) || FunctionCallExpr.RIGHT_IDENT.equals(this.identifier)){
                     // Must be left() or right()
                     if (Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.REF)
                         throw new StaticCheckException("First argument to left() or right() was not a ref.");
