@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class VarDeclareStatement extends Statement {
     
@@ -16,6 +17,14 @@ public class VarDeclareStatement extends Statement {
     @Override
     public String toString() {
         return this.varDecl + " = " + this.rValue;
+    }
+
+    public void staticallyCheck(List<VarDecl> declaredVars) {
+        for (int i = 0; i < declaredVars.size(); i++){
+            if (this.varDecl.identifier == declaredVars.get(i).identifier)
+                throw new StaticCheckException("Identifier " + this.varDecl.identifier + " has already been used.");
+        }
+        declaredVars.add(this.varDecl);
     }
 
     @Override

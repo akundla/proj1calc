@@ -42,8 +42,7 @@ public class FunctionDefinition extends ASTNode {
             throw new StaticCheckException("Function name may not be the same as one of the predefined functions.");
         
         // Check that the function ends on a return statement
-        this.statements.staticallyCheck();
-        StatementList.checkRetForMethodBody(this.statements);
+        this.statements.staticallyCheckForMethodBody(this.formalParameters, this.functionIdentifier);
     }
 
     // Functions must always return a value (hence why all have a return type of int, q, or ref), so this will return a QuandaryValue

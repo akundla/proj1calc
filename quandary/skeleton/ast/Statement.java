@@ -8,7 +8,7 @@ public abstract class Statement extends ASTNode {
         super(loc);
     }
 
-    abstract void staticallyCheck();
+    // Each statement needs a staticallyCheck method too, but those take all different parameters
 
     /**
      * Only return statements return a value. However, statementLists may contain return statements, so they may return a value as well. 

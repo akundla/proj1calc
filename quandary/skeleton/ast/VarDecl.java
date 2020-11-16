@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.List;
+
 public class VarDecl {
     public static enum VAR_TYPE {
         INT,
@@ -34,5 +36,15 @@ public class VarDecl {
             s += "Ref";
         }
         return s + " " + this.identifier;
+    }
+
+    public static VarDecl getVarDeclFromIdent(List<VarDecl> declaredVars, String ident) {
+        for (int i = 0; i < declaredVars.size(); i++) {
+            VarDecl temp = declaredVars.get(i);
+            if (temp.identifier.equals(ident)) {
+                return temp;
+            }
+        }
+        throw new StaticCheckException("The variable " + ident + " has not been declared.");
     }
 }

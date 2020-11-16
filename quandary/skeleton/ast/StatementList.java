@@ -25,10 +25,15 @@ public class StatementList extends Statement {
     /**
      * Simply checks every statement
      */
-    @Override
-    public void staticallyCheck() {
+    public void staticallyCheckForMethodBody(List<VarDecl> declaredVars, VarDecl funcIdent) {
+        StatementList.checkRetForMethodBody(this);
         for (int i = 0; i < this.statements.size(); i++) {
-            this.statements.get(i).staticallyCheck();
+            Statement temp = this.statements.get(i);
+            if (temp instanceof VarDeclareStatement)
+                // Will add variable to declaredVars
+                ((VarDeclareStatement)temp).staticallyCheck(declaredVars);
+            else if (temp instanceof ReturnStatement)
+                ((ReturnStatement)temp).staticallyCheck(declaredVars, funcIdent.typeCode);
         }
     }
 
@@ -36,7 +41,7 @@ public class StatementList extends Statement {
      * Must be called from Function definition statically check
      * AND requires that staticallyCheck already be called
      */
-    public static void checkRetForMethodBody(StatementList sl) {
+    private static void checkRetForMethodBody(StatementList sl) {
         if (sl.statements == null) 
             throw new StaticCheckException("Method body must not be null.");
         if (sl.statements.size() < 1)
