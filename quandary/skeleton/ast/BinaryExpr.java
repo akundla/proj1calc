@@ -1,6 +1,9 @@
 package ast;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ast.VarDecl.VAR_TYPE;
 
 public class BinaryExpr extends Expr {
 
@@ -33,6 +36,21 @@ public class BinaryExpr extends Expr {
             case DOT: s = "."; break;
         }
         return expr1 + " " + s + " " + expr2;
+    }
+
+    @Override
+    public void staticallyCheck(List<VarDecl> declaredVars) {
+        this.expr1.staticallyCheck(declaredVars);
+        this.expr2.staticallyCheck(declaredVars);
+
+        if (
+            (this.op == OPERATOR.PLUS || this.op == OPERATOR.MINUS || this.op == OPERATOR.MULT)
+            && (
+                Expr.tryInferType(this.expr1, declaredVars) != VAR_TYPE.INT || 
+                Expr.tryInferType(this.expr2, declaredVars) != VAR_TYPE.INT
+                )
+            )
+            throw new StaticCheckException("Operands to arithmetic binary expression were not ints.");
     }
 
     @Override
