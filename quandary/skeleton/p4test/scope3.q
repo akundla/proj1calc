@@ -10,6 +10,6 @@ int main(int arg) {
         }
     }
     int z = 5;
-    y = y + 1;
+    y = 1776;
     return y;
 }
