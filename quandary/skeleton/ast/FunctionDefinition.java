@@ -2,7 +2,9 @@ package ast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class FunctionDefinition extends ASTNode {
 
@@ -41,6 +43,17 @@ public class FunctionDefinition extends ASTNode {
             // Copy the formal parameter list because it will not be restored.
             new ArrayList<VarDecl>(this.formalParameters),
             this.functionIdentifier);
+        
+        // Check that the formal parameters have distinct names
+        Set<String> formalParamIdents = new HashSet<String>();
+        for (int i = 0; i < this.formalParameters.size(); i++) {
+            if (formalParamIdents.contains(this.formalParameters.get(i).identifier)) {
+                throw new StaticCheckException("Function formal parameter name may not be duplicated.");
+            }
+            else {
+                formalParamIdents.add(this.formalParameters.get(i).identifier);
+            }
+        }
 
         // Check that the function ends on a return statement
         StatementList.checkRetForMethodBody(this.statements);
