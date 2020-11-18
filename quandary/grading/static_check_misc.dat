@@ -1,0 +1,6 @@
+1 double_return_in_main.q					1
+1 missing_return_from_function_that_always_returns_a_value.q	1
+1 missing_return_from_main.q					1
+1 missing_return_from_user_function.q				1
+1 statically_unreachable_return_statement_returns_wrong_type.q	1
+1 unreachable_return_in_main_has_incorrect_type_of_binary_op.q	1

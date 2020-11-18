@@ -1,0 +1,10 @@
+1 call_mutable_built_in_function_from_immutable_function.q			33
+1 call_mutable_function_from_immutable_function_from_mutable_function.q		42
+1 call_mutable_user_function_from_immutable_function.q				1
+1 call_statement_calls_mutable_function.q					1
+1 call_statment_calls_immutable_function_directly.q				1
+1 reassign_immutable_declared_in_above_if.q					1
+1 reassign_immutable_in_immutable_user_function.q				2
+1 reassign_immutable_in_same_block.q						3
+1 reassign_mutable_in_immutable_function.q					4
+
