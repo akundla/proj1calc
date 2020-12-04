@@ -15,6 +15,6 @@ public class QThread extends Thread {
 
     @Override
     public void run() {
-		this.e.eval(variables);
+		this.val = this.e.eval(variables);
     }
 }
