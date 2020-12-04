@@ -41,13 +41,9 @@ public class BinaryCond extends Cond {
 
     @Override
     boolean eval(HashMap<String, QuandaryValue> variables) {
-        return doOperation(expr1.eval(variables), operator, expr2.eval(variables));
-    }
-
-    static boolean doOperation(boolean value1, int operator, boolean value2) {
-        switch (operator) {
-            case BOOL_AND:  return value1 && value2;
-            case BOOL_OR: return value1 || value2;
+        switch (this.operator) {
+            case BOOL_AND:  return expr1.eval(variables) && expr2.eval(variables);
+            case BOOL_OR: return expr1.eval(variables) || expr2.eval(variables);
         }
         throw new RuntimeException("Unexpected in BinaryCond.doOperation");
     }
