@@ -258,13 +258,13 @@ public class FunctionCallExpr extends Expr {
 
     // mutable int acq(Ref r) – Acquires the lock of the object referenced by r and returns 1
     private static QuandaryIntValue acq(QuandaryRefValue r) {
-        // TODO: Implement acq
+        r.acquireLock();
         return new QuandaryIntValue(1);
     }
 
     // mutable int rel(Ref r) – Releases the lock of the object referenced by r and returns 1
     private static QuandaryIntValue rel(QuandaryRefValue r) {
-        // TODO: Implement rel
+        r.releaseLock();
         return new QuandaryIntValue(1);
     }
 
