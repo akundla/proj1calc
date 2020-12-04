@@ -15,6 +15,8 @@ public class FunctionCallExpr extends Expr {
     public static final String ISNIL_IDENT = "isNil";
     public static final String SETLEFT_IDENT = "setLeft";
     public static final String SETRIGHT_IDENT = "setRight";
+    public static final String ACQ_IDENT = "acq";
+    public static final String REL_IDENT = "rel";
 
     final String identifier;
     final List<Expr> arguments;
@@ -49,7 +51,11 @@ public class FunctionCallExpr extends Expr {
         else if (!functionDecl.isMutable) {
             if (func == null) {
                 if (FunctionCallExpr.isPredefFunc(this.identifier)) {
-                    if (FunctionCallExpr.SETLEFT_IDENT.equals(this.identifier) || FunctionCallExpr.SETRIGHT_IDENT.equals(this.identifier)) {
+                    if (FunctionCallExpr.SETLEFT_IDENT.equals(this.identifier)
+                        || FunctionCallExpr.SETRIGHT_IDENT.equals(this.identifier)
+                        || FunctionCallExpr.ACQ_IDENT.equals(this.identifier)
+                        || FunctionCallExpr.REL_IDENT.equals(this.identifier)
+                    ) {
                         throw new StaticCheckException("Cannot call a mutable function from inside an immutable function.");
                     }
                 }
@@ -100,8 +106,12 @@ public class FunctionCallExpr extends Expr {
                     if (Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.INT)
                         throw new StaticCheckException("First argument to randomInt() was not an int.");
                 }
-                else if (FunctionCallExpr.LEFT_IDENT.equals(this.identifier) || FunctionCallExpr.RIGHT_IDENT.equals(this.identifier)){
-                    // Must be left() or right()
+                else if (FunctionCallExpr.LEFT_IDENT.equals(this.identifier)
+                    || FunctionCallExpr.RIGHT_IDENT.equals(this.identifier)
+                    || FunctionCallExpr.ACQ_IDENT.equals(this.identifier)
+                    || FunctionCallExpr.REL_IDENT.equals(this.identifier)
+                    ){
+                    // Must be left() or right() or acq() or rel()
                     if (Expr.tryInferType(this.arguments.get(0), declaredVars) != VAR_TYPE.REF)
                         throw new StaticCheckException("First argument to left() or right() was not a ref.");
                 }
@@ -119,10 +129,12 @@ public class FunctionCallExpr extends Expr {
      */
     public static boolean isPredefFunc(String identifier) {
         if (identifier.equals(FunctionCallExpr.LEFT_IDENT) || identifier.equals(FunctionCallExpr.RIGHT_IDENT)
-                || identifier.equals(FunctionCallExpr.RANDOM_INT_IDENT)
-                || identifier.equals(FunctionCallExpr.ISATOM_IDENT) || identifier.equals(FunctionCallExpr.ISNIL_IDENT)
-                || identifier.equals(FunctionCallExpr.SETLEFT_IDENT)
-                || identifier.equals(FunctionCallExpr.SETRIGHT_IDENT))
+            || identifier.equals(FunctionCallExpr.RANDOM_INT_IDENT)
+            || identifier.equals(FunctionCallExpr.ISATOM_IDENT) || identifier.equals(FunctionCallExpr.ISNIL_IDENT)
+            || identifier.equals(FunctionCallExpr.SETLEFT_IDENT)
+            || identifier.equals(FunctionCallExpr.SETRIGHT_IDENT)
+            || identifier.equals(FunctionCallExpr.ACQ_IDENT)
+            || identifier.equals(FunctionCallExpr.REL_IDENT))
             return true;
         else
             return false;
@@ -162,6 +174,14 @@ public class FunctionCallExpr extends Expr {
             return FunctionCallExpr.setRight(
                     FunctionCallExpr.nilChecker((QuandaryRefValue) this.arguments.get(0).eval(variables)),
                     this.arguments.get(1).eval(variables));
+        }
+        else if (this.identifier.equals(ACQ_IDENT)) {
+            return FunctionCallExpr
+                    .acq(FunctionCallExpr.nilChecker((QuandaryRefValue) this.arguments.get(0).eval(variables)));
+        }
+        else if (this.identifier.equals(REL_IDENT)) {
+            return FunctionCallExpr
+                    .rel(FunctionCallExpr.nilChecker((QuandaryRefValue) this.arguments.get(0).eval(variables)));
         }
         throw new RuntimeException("FunctionCallExpr was given an unrecognizable identifier.");
     }
@@ -221,7 +241,7 @@ public class FunctionCallExpr extends Expr {
     }
 
     // mutable int setLeft(Ref r, Q value) – Sets the left field of the object
-    // referenced by r to value, and returns 1
+    //  referenced by r to value, and returns 1
     private static QuandaryIntValue setLeft(QuandaryRefValue r, QuandaryValue value) {
         FunctionCallExpr.checkTypes(r.referencedQObject.left, value);
         r.referencedQObject.left = value;
@@ -229,10 +249,22 @@ public class FunctionCallExpr extends Expr {
     }
 
     // mutable int setRight(Ref r, Q value) – Sets the right field of the object
-    // referenced by r to value, and returns 1
+    //  referenced by r to value, and returns 1
     private static QuandaryIntValue setRight(QuandaryRefValue r, QuandaryValue value) {
         FunctionCallExpr.checkTypes(r.referencedQObject.right, value);
         r.referencedQObject.right = value;
+        return new QuandaryIntValue(1);
+    }
+
+    // mutable int acq(Ref r) – Acquires the lock of the object referenced by r and returns 1
+    private static QuandaryIntValue acq(QuandaryRefValue r) {
+        // TODO: Implement acq
+        return new QuandaryIntValue(1);
+    }
+
+    // mutable int rel(Ref r) – Releases the lock of the object referenced by r and returns 1
+    private static QuandaryIntValue rel(QuandaryRefValue r) {
+        // TODO: Implement rel
         return new QuandaryIntValue(1);
     }
 

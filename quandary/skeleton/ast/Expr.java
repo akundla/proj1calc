@@ -52,6 +52,10 @@ public abstract class Expr extends ASTNode {
                     return VAR_TYPE.INT;
                 else if (fceTemp.identifier.equals(FunctionCallExpr.SETRIGHT_IDENT))
                     return VAR_TYPE.INT;
+                else if (fceTemp.identifier.equals(FunctionCallExpr.ACQ_IDENT))
+                    return VAR_TYPE.INT;
+                else if (fceTemp.identifier.equals(FunctionCallExpr.REL_IDENT))
+                    return VAR_TYPE.INT;
                 else
                     throw new StaticCheckException("Something went wrong in static checking, the identifier" + expr + " for a nonexistent function shouldn't've made it this far.");
             }

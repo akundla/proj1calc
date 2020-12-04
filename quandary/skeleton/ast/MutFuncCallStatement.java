@@ -38,8 +38,9 @@ public class MutFuncCallStatement extends Statement {
         else if (FunctionCallExpr.isPredefFunc(this.funcCallExpr.identifier) 
             && !(
                 FunctionCallExpr.SETLEFT_IDENT.equals(this.funcCallExpr.identifier)
-                ||
-                FunctionCallExpr.SETRIGHT_IDENT.equals(this.funcCallExpr.identifier)
+                || FunctionCallExpr.SETRIGHT_IDENT.equals(this.funcCallExpr.identifier)
+                || FunctionCallExpr.ACQ_IDENT.equals(this.funcCallExpr.identifier)
+                || FunctionCallExpr.REL_IDENT.equals(this.funcCallExpr.identifier)
                 )
             ) {
             throw new StaticCheckException("Cannot call non-mutable function in a Function Call Statement (even a predefined one).");
