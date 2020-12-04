@@ -109,14 +109,15 @@ public class Interpreter {
 
         // Statically check everything in the tree
         try {
-            astRoot.staticallyCheck();
+            //astRoot.staticallyCheck();
         } catch (StaticCheckException s) {
             Interpreter.fatalError(s.getMessage(), EXIT_STATIC_CHECKING_ERROR);
         }
 
         // Actually execute the program
-        try {
+        //try {
             return astRoot.exec(arg);
+        /*
         } catch (DynamicCheckException d) {
             Interpreter.fatalError(d.getMessage(), EXIT_DYNAMIC_TYPE_ERROR);
         } catch (NilDereferenceException n) {
@@ -126,6 +127,7 @@ public class Interpreter {
         // Should be unreachable code
         throw new RuntimeException("This exception was supposed to be unreachable. "
             + "Either main was supposed to return a value, or else a static or dynamic error was supposed to be found.");
+        */
     }
 
     public static void fatalError(String message, int processReturnCode) {
