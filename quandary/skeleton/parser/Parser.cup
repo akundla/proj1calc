@@ -30,6 +30,7 @@ parser code {:
 terminal COMMA;
 terminal PLUS, MINUS, MULT, UMINUS, DOT;
 terminal LPAREN, RPAREN;
+terminal LBRACKET, RBRACKET;
 terminal LBRACE, RBRACE;
 terminal RET, SEMI;
 terminal INT, QTYPE, REFTYPE;
@@ -192,6 +193,8 @@ expr ::= INTCONST:c
       | LPAREN varType:vt RPAREN expr:e
          {: RESULT = new CastExpr(vt, e, loc(vtleft, vtright)); :}
          %prec CAST
+      | LBRACKET binaryExpr:be RBRACKET
+         {: RESULT = new ConcurrentBinaryExpr(be, loc(beleft, beright)); :}
       ;
 
 funcCallExpr ::= IDENT:i LPAREN exprList:el RPAREN

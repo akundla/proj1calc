@@ -71,6 +71,9 @@ white_space = {new_line} | [ \t\f]
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
 
+"["               { return symbol("[", LBRACKET); }
+"]"               { return symbol("]", RBRACKET); }
+
 "{"               { return symbol("{", LBRACE); }
 "}"               { return symbol("}", RBRACE); }
 

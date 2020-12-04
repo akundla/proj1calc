@@ -58,17 +58,27 @@ public class BinaryExpr extends Expr {
         if (this.op == OPERATOR.PLUS
             || this.op == OPERATOR.MINUS
             || this.op == OPERATOR.MULT) {
+                
+            long left, right;
+            left = ((QuandaryIntValue)expr1.eval(variables)).value;
+            right = ((QuandaryIntValue)expr2.eval(variables)).value;
+
             return new QuandaryIntValue(
                 doOperation(
-                    ((QuandaryIntValue)expr1.eval(variables)).value,
+                    left,
                     this.op,
-                    ((QuandaryIntValue)expr2.eval(variables)).value
+                    right
                 )
             );
         }
         else if (this.op == OPERATOR.DOT) {
+
+            QuandaryValue left, right;
+            left = this.expr1.eval(variables);
+            right = this.expr2.eval(variables);
+
             return new QuandaryRefValue(
-                new QuandaryObject(this.expr1.eval(variables), this.expr2.eval(variables))
+                new QuandaryObject(left, right)
             );
         }
         else {
@@ -76,11 +86,45 @@ public class BinaryExpr extends Expr {
         }
     }
 
-    static Long doOperation(long value1, OPERATOR operator, long value2) {
+    public QuandaryValue evalConcurrently(HashMap<String, QuandaryValue> variables) {
+        if (this.op == OPERATOR.PLUS
+            || this.op == OPERATOR.MINUS
+            || this.op == OPERATOR.MULT) {
+                
+            long left, right;
+            // TODO: Implement concurrency
+            left = ((QuandaryIntValue)expr1.eval(variables)).value;
+            right = ((QuandaryIntValue)expr2.eval(variables)).value;
+
+            return new QuandaryIntValue(
+                doOperation(
+                    left,
+                    this.op,
+                    right
+                )
+            );
+        }
+        else if (this.op == OPERATOR.DOT) {
+
+            QuandaryValue left, right;
+            // TODO: Implement concurrency
+            left = this.expr1.eval(variables);
+            right = this.expr2.eval(variables);
+
+            return new QuandaryRefValue(
+                new QuandaryObject(left, right)
+            );
+        }
+        else {
+            throw new RuntimeException("Operator not recognized.");
+        }
+    }
+
+    static Long doOperation(long left, OPERATOR operator, long right) {
         switch (operator) {
-            case PLUS:  return value1 + value2;
-            case MINUS: return value1 - value2;
-            case MULT: return value1 * value2;
+            case PLUS:  return left + right;
+            case MINUS: return left - right;
+            case MULT: return left * right;
         }
         throw new RuntimeException("Unexpected in BinaryExpr.doOperation");
     }
