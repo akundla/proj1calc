@@ -117,7 +117,6 @@ public class BinaryExpr extends Expr {
         else if (this.op == OPERATOR.DOT) {
 
             QuandaryValue left, right;
-            // TODO: Implement concurrency
             left = leftThread.val;
             right = rightThread.val;
 
