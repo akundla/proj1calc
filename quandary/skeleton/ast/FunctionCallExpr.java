@@ -65,8 +65,17 @@ public class FunctionCallExpr extends Expr {
                 throw new StaticCheckException("Function Call expression does not have the same number of arguments as the function being called has formal parameters.");
             else {
                 for (int i = 0; i < this.arguments.size(); i++) {
-                    if (func.formalParameters.get(i).typeCode == VAR_TYPE.INT && Expr.tryInferType(this.arguments.get(i), declaredVars) != VAR_TYPE.INT
-                        || func.formalParameters.get(i).typeCode == VAR_TYPE.REF && Expr.tryInferType(this.arguments.get(i), declaredVars) != VAR_TYPE.REF)
+
+                    /*
+                    System.out.println("Formal parameter type: " + func.formalParameters.get(i).typeCode
+                        + ", Argument: " + this.arguments.get(i)
+                        + ", Argument type: " + Expr.tryInferType(this.arguments.get(i), declaredVars));
+                    */
+                    
+                    this.arguments.get(i).staticallyCheck(declaredVars, functionDecl);
+
+                    if (((func.formalParameters.get(i).typeCode == VAR_TYPE.INT) && (Expr.tryInferType(this.arguments.get(i), declaredVars) != VAR_TYPE.INT))
+                        || ((func.formalParameters.get(i).typeCode == VAR_TYPE.REF) && (Expr.tryInferType(this.arguments.get(i), declaredVars) != VAR_TYPE.REF)))
                         throw new StaticCheckException("Type of argument to function did not match type of formal parameter.");
                 }
             }
