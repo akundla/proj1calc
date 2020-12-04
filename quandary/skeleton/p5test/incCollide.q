@@ -1,6 +1,8 @@
 mutable int main (int arg) {
     Ref r = (0 . nil);
-    return [increment100times(r) + increment100times(r)];
+    int x = [increment100times(r) + increment100times(r)];
+    print(r);
+    return x;
 }
 
 mutable int increment100times(Ref r) {
