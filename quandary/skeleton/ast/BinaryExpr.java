@@ -87,14 +87,24 @@ public class BinaryExpr extends Expr {
     }
 
     public QuandaryValue evalConcurrently(HashMap<String, QuandaryValue> variables) {
+        QThread leftThread = new QThread(this.expr1, variables);
+        QThread rightThread = new QThread(this.expr2, variables);
+        leftThread.start();
+        rightThread.start();
+        try {
+            leftThread.join();
+            rightThread.join();
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
+
         if (this.op == OPERATOR.PLUS
             || this.op == OPERATOR.MINUS
             || this.op == OPERATOR.MULT) {
                 
             long left, right;
-            // TODO: Implement concurrency
-            left = ((QuandaryIntValue)expr1.eval(variables)).value;
-            right = ((QuandaryIntValue)expr2.eval(variables)).value;
+            left = ((QuandaryIntValue)leftThread.val).value;
+            right = ((QuandaryIntValue)rightThread.val).value;
 
             return new QuandaryIntValue(
                 doOperation(
@@ -108,8 +118,8 @@ public class BinaryExpr extends Expr {
 
             QuandaryValue left, right;
             // TODO: Implement concurrency
-            left = this.expr1.eval(variables);
-            right = this.expr2.eval(variables);
+            left = leftThread.val;
+            right = rightThread.val;
 
             return new QuandaryRefValue(
                 new QuandaryObject(left, right)
